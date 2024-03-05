@@ -190,7 +190,6 @@ const styles = StyleSheet.create({
 
       textButton2: {
         fontSize: 15,
-        color: 'white',
         fontWeight: 'bold',
         color: '#008E9B',
         borderBottomWidth: 1,
