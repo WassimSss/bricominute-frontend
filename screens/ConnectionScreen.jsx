@@ -16,7 +16,7 @@ export default function HomeScreen({ navigation }) {
 
    <View style={styles.blockBas}>
  
-   </View>
+   
 
     
       
@@ -25,8 +25,9 @@ export default function HomeScreen({ navigation }) {
      </TouchableOpacity>
 
      <TouchableOpacity style={styles.button2}>
-    <Text style={styles.button}>Mot de passe oublié?</Text>
+    <Text style={styles.textButton}>Mot de passe oublié?</Text>
      </TouchableOpacity>
+     </View>
    </View>
  );
 }
@@ -39,11 +40,12 @@ const styles = StyleSheet.create({
 
 blockHaut:{
 
-borderWidth:3,
-borderColor:'red',
+
 width:'100%',
 alignItems:'center',
 fontWeight:'bold',
+height:'30%',
+justifyContent:'center',
 },
 
 
@@ -55,63 +57,78 @@ fontWeight:'bold',
     },
 
 title: {
-    fontSize:29,
-    
+    fontSize:39,
+    fontWeight:'bold',
     fontFamily: "Futura",
     marginBottom: 50,
   },
   button1 : {
     alignItems: "center",
-    paddingTop: 25,
-    width: "100%",
+ justifyContent:'center',
+    width: "60%",
+    height:'15%',
     marginTop: 30,
     backgroundColor: "#B14A73",
-    borderRadius: 1,
+    borderRadius: 15,
+
     fontSize:'20px',
+
    
   },
   input1:{
 borderWidth:1,
-
+width:'80%',
+height:'15%',
   },
   blockMillieu:{
-   justifyContent:'center', 
-   margin:'10%',
-   height: '60%',
-   width:'100%',
- alignItems:'center',
- borderWidth:2,
- borderColor:'blue',
-padding:'25%',
+   justifyContent:'space-around',
+  marginLeft:'10%',
+   height: '30%',
+   width:'80%',
+  alignItems:'center',
+ 
+
   },
 
   button2 : {
     alignItems: "center",
     paddingTop: 8,
-    width: "100%",
+  
     marginTop: 30,
-    height:'60%',
+   
     borderRadius: 1,
     fontSize:'20px',
+    borderBottomWidth:1,
+    borderBottomColor:'#008e9b',
+  
+    marginBottom:'50%',
   },
 
 blockBas:{
     alignItems:'center',
     fontSize:'20px',
-    borderWidth:1,
-   borderColor:'green',
+  
+
 },
 input2:{
     borderWidth:1,
     
       },
 
- textButton: {
+ button: {
         fontFamily: "Futura",
-        height: 30,
-        fontWeight: "600",
-        fontSize:'80%',
+        fontWeight:'bold',
+        fontSize:30,
+        color: 'white',
        
-     }
+     },
+textButton:{
+fontSize:15,
+color:'#008e9b',
+borderBottomWidth:1,
+borderBottomColor:'#008e9b',
+
+}
+
     })
 
