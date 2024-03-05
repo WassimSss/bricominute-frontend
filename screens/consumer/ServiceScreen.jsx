@@ -1,17 +1,49 @@
 import { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Dimensions, FlatList } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 import { LocaleConfig } from 'react-native-calendars';
 import RadioButton from '../../components/RadioButton';
+import { LinearGradient } from 'expo-linear-gradient';
 
 export default function ServiceScreen({ navigation }) {
 
-  const [jobs, setJobs] = useState([]);
-  const [jobTask, setJobTask] = useState([])
   const [step, setStep] = useState(1)
+  const handlePreviousStep = (can) => {
+    if (can) {
+      setStep(step - 1)
+    }
+  }
+
+  const handleNextStep = (can) => {
+    console.log('nextStep');
+    if (can) {
+      setStep(step + 1)
+    }
+  }
+  // ETAPE 1
+  const [jobs, setJobs] = useState([]);
+  const handleAddJob = (jobName) => {
+    if (jobs.includes(jobName)) {
+      setJobs(jobs.filter(e => e !== jobName))
+    } else {
+      setJobs(prev => [...prev, jobName]);
+    }
+  }
+  // ETAPE 2
+  const [jobTask, setJobTask] = useState([])
+  const handleAddJobTask = (jobTaskName) => {
+    console.log(jobTask);
+    if (jobTask.includes(jobTaskName)) {
+      setJobTask(jobTask.filter(e => e !== jobTaskName))
+    } else {
+      setJobTask(prev => [...prev, jobTaskName]);
+    }
+  }
+  // ETAPE 3
   const [selected, setSelected] = useState('');
-  const options = ['Option 1', 'Option 2', 'Option 3'];
+  const options = ['Le plus tôt', 'Programmer'];
+  const [optionSelected, setOptionSelected] = useState('');
   LocaleConfig.locales['fr'] = {
     monthNames: [
       'Janvier',
@@ -47,35 +79,18 @@ export default function ServiceScreen({ navigation }) {
     today: "Aujourd'hui"
   };
   LocaleConfig.defaultLocale = 'fr';
+  const handleRadio = (option) => {
+    setOptionSelected(option)
+  };
+  // ETAPE 4
+  const allServiceWanted = jobTask.map(e => {
+    return { key: e, price: 25 }
+  })
 
-  const handleAddJob = (jobName) => {
-    if (jobs.includes(jobName)) {
-      setJobs(jobs.filter(e => e !== jobName))
-    } else {
-      setJobs(prev => [...prev, jobName]);
-    }
-  }
+  let allServiceWantedPrice = 0;
 
-  const handleAddJobTask = (jobTaskName) => {
-    console.log(jobTask);
-    if (jobTask.includes(jobTaskName)) {
-      setJobTask(jobTask.filter(e => e !== jobTaskName))
-    } else {
-      setJobTask(prev => [...prev, jobTaskName]);
-    }
-  }
-
-  const handlePreviousStep = (can) => {
-    if (can) {
-      setStep(step - 1)
-    }
-  }
-
-  const handleNextStep = (can) => {
-    console.log('nextStep');
-    if (can) {
-      setStep(step + 1)
-    }
+  for (const service of allServiceWanted) {
+    allServiceWantedPrice += service.price
   }
 
   if (step === 1) {
@@ -213,18 +228,18 @@ export default function ServiceScreen({ navigation }) {
         <Text style={styles.title}>
           Quand ?
         </Text>
-
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <RadioButton options={options} />
-        </View>
-
         <Text>Etape {step}/4</Text>
 
-        <Calendar
+        <View >
+          <RadioButton options={options} style={styles.radioBtns} handleRadio={handleRadio} />
+        </View>
+
+
+        {optionSelected === 'Programmer' && <Calendar
           style={{
             borderWidth: 1,
             borderColor: '#B14A73',
-            height: 350,
+            //height: 350,
           }}
           onDayPress={day => {
             setSelected(day.dateString);
@@ -247,7 +262,8 @@ export default function ServiceScreen({ navigation }) {
           markedDates={{
             [selected]: { selected: true, marked: true, selectedColor: '#B14A73' }
           }}
-        />
+        />}
+
 
         <View style={styles.allBtn}>
           <TouchableOpacity style={styles.arrowBtnContainer} onPress={() => handlePreviousStep(true)}>
@@ -255,11 +271,70 @@ export default function ServiceScreen({ navigation }) {
             <FontAwesome name='arrow-left' size={20} color='#B14A73' style={step === 1 && styles.cantGoStyle} />
           </TouchableOpacity>
 
-          <TouchableOpacity style={[styles.arrowBtnContainer, styles.cantGoStyle]} onPress={() => handleNextStep(selected !== '')}>
+          <TouchableOpacity style={[styles.arrowBtnContainer, styles.cantGoStyle]} onPress={() => handleNextStep(optionSelected !== '')}>
             <Text style={[styles.cantGoStyle, jobTask.length > 0 && styles.activeColor]}>Suivant</Text>
             <FontAwesome name='arrow-right' size={20} color='#979797' style={jobTask.length > 0 && styles.activeColor} />
           </TouchableOpacity>
         </View>
+
+      </View>
+    )
+  } else if (step === 4) {
+    return (
+
+      <View style={styles.container}>
+
+
+        <Text style={styles.title}>
+          Récapitulatif
+        </Text>
+        <Text>Etape {step}/4</Text>
+
+        <FlatList
+          data={allServiceWanted}
+          renderItem={({ item }) => <View style={styles.li}>
+            <Text style={styles.liText}>{item.key}</Text>
+            <Text style={styles.liText}>{item.price}€</Text>
+          </View>}
+        />
+
+        <View style={styles.line} />
+
+        <View>
+          <Text>Total TTC</Text>
+          <Text>{allServiceWantedPrice}€</Text>
+        </View>
+
+        <View style={styles.containerButton}>
+          <LinearGradient
+            // Button Linear Gradient
+            colors={['#407CB8', '#B14A73']}
+            style={styles.button}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}>
+            <Text style={styles.buttonText}>Modifier</Text>
+          </LinearGradient>
+
+          <LinearGradient
+            // Button Linear Gradient
+            colors={['#407CB8', '#B14A73']}
+            style={styles.button}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}>
+            <Text style={styles.buttonText}>Accepter</Text>
+          </LinearGradient>
+        </View>
+        {/* <View style={styles.allBtn}>
+          <TouchableOpacity style={styles.arrowBtnContainer} onPress={() => handlePreviousStep(true)}>
+            <Text style={[styles.activeColor, step === 1 && styles.cantGoStyle]}>Précédent</Text>
+            <FontAwesome name='arrow-left' size={20} color='#B14A73' style={step === 1 && styles.cantGoStyle} />
+          </TouchableOpacity>
+
+          <TouchableOpacity style={[styles.arrowBtnContainer, styles.cantGoStyle]} onPress={() => handleNextStep(optionSelected !== '')}>
+            <Text style={[styles.cantGoStyle, jobTask.length > 0 && styles.activeColor]}>Suivant</Text>
+            <FontAwesome name='arrow-right' size={20} color='#979797' style={jobTask.length > 0 && styles.activeColor} />
+          </TouchableOpacity>
+        </View> */}
 
       </View>
     )
@@ -277,7 +352,8 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 30,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+
   },
   duo: {
     display: 'flex',
@@ -322,5 +398,48 @@ const styles = StyleSheet.create({
   },
   activeColor: {
     color: '#B14A73'
+  },
+  radioBtns: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: width,
+    marginBottom: 100,
+    marginTop: 100
+  },
+  li: {
+    flexDirection: 'row',
+    justifyContent: 'space-around'
+  },
+  liText: {
+    fontSize: 20,
+    fontWeight: 'bold'
+  },
+  line: {
+    width: width - 50,
+    backgroundColor: '#000',
+    height: 2
+  },
+  button: {
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderRadius: 5,
+    shadowColor: '#000', // Couleur de l'ombre
+    shadowOffset: { width: 0, height: 5 }, // Décalage de l'ombre
+    shadowOpacity: 0.35, // Opacité de l'ombre
+    shadowRadius: 15, // Rayon de l'ombre
+    elevation: 10, // Pour Android, simule l'effet d'ombre
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold'
+  },
+  containerButton: {
+    width: width,
+    flexDirection: 'row',
+    justifyContent: 'space-around'
   }
 });
+
+// background: rgb(64,124,184);
+// background: linear-gradient(145deg, rgba(64,124,184,1) 0%, rgba(177,74,115,1) 100%);

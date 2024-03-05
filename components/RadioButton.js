@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 
-export default function RadioButton({ options }) {
+export default function RadioButton({ options, style, handleRadio }) {
     const [selectedOption, setSelectedOption] = useState(null);
 
     const handleOptionSelect = (option) => {
         setSelectedOption(option);
+        handleRadio(option)
     };
 
+    console.log(selectedOption);
     return (
-        <View>
+        <View style={style}>
             {options.map((option) => (
                 <TouchableOpacity
                     key={option}
@@ -22,7 +24,7 @@ export default function RadioButton({ options }) {
                             width: 24,
                             borderRadius: 12,
                             borderWidth: 2,
-                            borderColor: selectedOption === option ? 'blue' : 'gray',
+                            borderColor: selectedOption === option ? '#B14A73' : 'gray',
                             alignItems: 'center',
                             justifyContent: 'center',
                         }}
@@ -33,7 +35,7 @@ export default function RadioButton({ options }) {
                                     height: 12,
                                     width: 12,
                                     borderRadius: 6,
-                                    backgroundColor: 'blue',
+                                    backgroundColor: '#B14A73',
                                 }}
                             />
                         )}
