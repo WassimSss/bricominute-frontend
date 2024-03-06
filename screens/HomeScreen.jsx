@@ -26,10 +26,9 @@ export default function HomeScreen({ navigation }) {
    </View>
 </ImageBackground>
         <TouchableOpacity
-            onPress={() => handleSubmit()}
             style={styles.button}
             activeOpacity={0.8}>    
-            <Text style={styles.textButton}>Suivant</Text>
+            <Text style={styles.textButton} onPress={() => navigation.navigate('Acceuil')}  >Suivant</Text>
             <FontAwesome name='arrow-right' size={25} color='#b14a73'/>      
             </TouchableOpacity>
 </View>
@@ -62,16 +61,16 @@ marginBottom : '25%'
         justifyContent:'center'
     },
 
-    textButton: {
+    /*textButton: {
         fontFamily: "Futura",
         height: '30',
         fontWeight: "600",
         fontSize: '24',
        textAlign: "right",
 
+}
 
-},
-
+*/
 
 
 
