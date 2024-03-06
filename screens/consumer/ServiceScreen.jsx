@@ -11,7 +11,7 @@ export default function ServiceScreen({ navigation }) {
   const consumerService = useSelector(state => state.consumerServices.value);
 
   // Pour l'instant en dur, mais voir si l'user a deja commandée un service a partir de la base de données
-  const userIsOnService = true
+  const userIsOnService = false
   if (userIsOnService) {
     return (
       <View>

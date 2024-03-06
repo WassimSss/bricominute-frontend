@@ -4,7 +4,7 @@ import {
   Text,
 } from 'react-native';
 
-export default function HomeScreen({ navigation }) {
+export default function HomeScreenConsumer({ navigation }) {
   return (
     <View style={styles.container}>
 
