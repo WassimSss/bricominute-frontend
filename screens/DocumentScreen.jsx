@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
        height:'15%',
        justifyContent:'space-between',
        flexDirection:'row',
-      margin:2,
+    
     },
     textButton1:{
         fontSize:30,
