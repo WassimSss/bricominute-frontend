@@ -1,11 +1,50 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
 import { RadioButton } from 'react-native-paper';
+import { AddLoginToStore } from '../reducers/user';
+
 
 
 export default function RegisterScreen({ navigation }) {
 
-    const [checked, setChecked] = useState('first');
+    const [checked, setChecked] = useState(false);
+    const [signUpFirstName, setSignUpFirstName] = useState('');
+    const [signUpLastName, setSignUpLastName] = useState('');
+    const [signUpEmail, setSignUpEmail] = useState('');
+    const [signUpPassword, setSignUpPassword] = useState('');
+
+
+
+    const handleRegister = () => {
+console.log(checked,signUpFirstName,signUpLastName,signUpEmail,signUpPassword)
+
+        // Si l'utilisateur a sélectionné 'first', attribuer à userType la valeur 'Particulier' ;
+        // sinon, attribuer la valeur 'Professionnel'". Cela est utile pour déterminer le 
+        //type d'utilisateur dans le processus d'inscription.
+
+        const userType = checked === 'first' ? false : true;
+
+
+
+        fetch('http://10.20.2.120:3000/user/signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ 
+            firstName: signUpFirstName, 
+            lastName: signUpLastName , 
+            email: signUpEmail, 
+            password: signUpPassword, 
+            isPro: checked,
+         }),
+        }).then(response => response.json())
+      };
+
+
+    
+
+    
+
 
 
  return (
@@ -17,12 +56,20 @@ export default function RegisterScreen({ navigation }) {
             <Text style={styles.title2}>compte</Text>
         </View>      
         <View style={styles.blocHaut2}>
-            <TextInput placeholder="Nom" style={styles.input1} />
-            <TextInput placeholder="Prénom" style={styles.input1} />
+                <TextInput placeholder="Nom" style={styles.input1}             
+                    onChangeText={(value) => setSignUpFirstName(value)}
+                    value={signUpFirstName} />
+                <TextInput placeholder="Prénom" style={styles.input1}
+                    onChangeText={(value) => setSignUpLastName(value)}
+                    value={signUpLastName} />
         </View>
         <View style={styles.blocHaut3}>
-            <TextInput placeholder="Email" style={styles.input2} />
-            <TextInput placeholder="Mot de passe" style={styles.input2} />
+            <TextInput placeholder="Email" style={styles.input2} 
+                    onChangeText={(value) => setSignUpEmail(value)}
+                    value={signUpEmail} />
+            <TextInput placeholder="Mot de passe" style={styles.input2}
+                    onChangeText={(value) => setSignUpPassword(value)}
+                    value={signUpPassword}/>
             <TextInput placeholder="Confirmer mot de passe" style={styles.input2} />
         </View>
         <Text style={styles.title3}>Je suis :</Text>
@@ -30,30 +77,25 @@ export default function RegisterScreen({ navigation }) {
         <View style={styles.blocHaut4}>
        
             <RadioButton
-        value="first"
-        status={ checked === 'first' ? 'checked' : 'unchecked' }
-        onPress={() => setChecked('first')}
-        color='#b14a73'  
+                value="first"
+                status={ checked === false ? 'checked' : 'unchecked' }
+                onPress={() => setChecked(false)}
+                color='#b14a73'  /> 
+        <Text style={styles.text2} >Particulier</Text>
 
-      /> 
-      <Text style={styles.text2} >Particulier</Text>
+            <RadioButton
+                value="second"
+                status={ checked === true ? 'checked' : 'unchecked'}
+                onPress={() => setChecked(true)}
+                color='#b14a73'  />
+        <Text style={styles.text2} >Professionnel</Text>
 
-     
-
-      <RadioButton
-        value="second"
-        status={ checked === 'second' ? 'checked' : 'unchecked'}
-        onPress={() => setChecked('second')}
-        color='#b14a73'
-      />
-      <Text style={styles.text2} >Professionnel</Text>
-
-    </View>
+        </View>
 
 
     <View style={styles.blocBoutons}>
       <TouchableOpacity style={styles.button1}>
-            <Text style={styles.textButton1} onPress={() => navigation.navigate('Inscription')}>S'INSCRIRE</Text>
+            <Text style={styles.textButton1} onPress={() => handleRegister()}>S'INSCRIRE</Text>
       </TouchableOpacity>
       <Text style={styles.title4}>Vous avez déjà un compte ?</Text>
       <TouchableOpacity style={styles.button2}>
