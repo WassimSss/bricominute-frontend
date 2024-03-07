@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View,TouchableOpacity,TextInput,Button,} from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 
-export default function PaiementScreen() {
+export default function DocumentScreen() {
     return (
 
         <View style={styles.container}>
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
 
     alignItems:'center',
     justifyContent:'center',
-    flex:'1',
+    flex:1,
     },
     
     
