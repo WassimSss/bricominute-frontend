@@ -4,10 +4,8 @@ import React, { useState } from 'react';
 import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
 
-
-const BACKEND_ADDRESS = 'http://10.20.2.120:3000';
-
 export default function DocumentScreen() {
+  const BACKEND_ADDRESS = 'http://10.20.2.120:3000';
 
 
   const [selectedFiles, setSelectedFiles] = useState([]);
@@ -129,10 +127,35 @@ const styles = StyleSheet.create({
   container: {
 
 
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-  },
+    alignItems:'center',
+    justifyContent:'center',
+    flex:1,
+    },
+    
+    
+    blockHaut: {
+        height:'30%',
+        width:'100%',
+        justifyContent:'space-around',
+        alignItems:'center',
+        marginTop: '10%',
+
+      },
+
+      title:{
+        fontSize:39,
+        fontWeight:'bold',
+        fontFamily: "Futura",
+        marginBottom: 20,
+        textAlign: 'center'
+      },
+
+      input1:{
+        borderWidth:1,
+        width:'80%',
+        height:'20%',
+
+          },
 
 
   blockHaut: {
