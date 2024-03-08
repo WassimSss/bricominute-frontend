@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, TouchableOpacity, Dimensions, FlatList } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { LinearGradient } from 'expo-linear-gradient';
-import { goToStep } from '../../../reducers/consumerServices';
+import { goToStep, handleRefresh } from '../../../reducers/consumerServices';
 
 export default function ServiceStepFour({ navigation }) {
 
@@ -25,6 +25,8 @@ export default function ServiceStepFour({ navigation }) {
   }
 
   const sendServiceRequest = () => {
+    dispatch(handleRefresh())
+    console.log(consumerService.refresh);
     const reformatedData = {
       idUser: '65e6e7249333d0bcd3044e5a',
       idJob: consumerService.jobs,
@@ -43,6 +45,7 @@ export default function ServiceStepFour({ navigation }) {
       .then(response => response.json())
       .then(data => {
         console.log(data);
+        dispatch(handleRefresh())
       })
   }
 

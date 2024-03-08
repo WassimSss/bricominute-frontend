@@ -3,22 +3,71 @@ import { useSelector } from 'react-redux';
 import ServiceStepTwo from './ServiceStep/ServiceStepTwo';
 import ServiceStepThree from './ServiceStep/ServiceStepThree';
 import ServiceStepFour from './ServiceStep/ServiceStepFour';
-import { Text, View } from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
+import MapView from 'react-native-maps';
+import ServiceSearchPro from './ServiceStep/ServiceSearchPro';
+import ServiceProInComming from './ServiceStep/ServiceProInComming';
+import { useEffect, useState } from 'react';
 
 
 export default function ServiceScreen({ navigation }) {
 
   const consumerService = useSelector(state => state.consumerServices.value);
 
+  const [userIsOnService, setUserIsOnService] = useState(false)
+  const [findPro, setFindPro] = useState(false)
+  const idUser = '65e6e7249333d0bcd3044e5a'
+
+
   // Pour l'instant en dur, mais voir si l'user a deja commandée un service a partir de la base de données
-  const userIsOnService = false
+  useEffect(() => {
+    fetch(`http://10.20.2.115:3000/user/isOnService/${idUser}`)
+      .then(response => response.json())
+      .then(isOnService => {
+        console.log("isOnService : ", isOnService);
+        setUserIsOnService(isOnService.result);
+
+        // Effectuer la deuxième requête uniquement si l'utilisateur est en service
+        if (isOnService.result) {
+          const idOrder = '65eb3e887942b0cc296213b0';
+          fetch(`http://10.20.2.115:3000/orders/getIdAddress/${idOrder}`)
+            .then(response => response.json())
+            .then(data => {
+              // On recup lat et long de l'addresse avec le deuxieme fetch
+              // grace a l'id addresse
+              console.log('dataGetIdAddress : ', data);
+              fetch(`http://10.20.2.115:3000/address/${data.IdAddress}`)
+                .then(response => response.json())
+                .then(position => {
+                  console.log('position : ', position);
+                  fetch(`http://10.20.2.115:3000/user/findUserNearbyAndGiveOrder/${position.latitude}/${position.longitude}/${idOrder}`)
+                    .then(response => response.json())
+                    .then(isProFinded => {
+                      console.log('isProFinded : ', isProFinded);
+                      if (isProFinded) {
+                        setFindPro(isProFinded.result);
+                      }
+                    });
+                });
+            });
+        }
+      });
+  }, [consumerService.refresh]);
+
+  // const findPro = false
   if (userIsOnService) {
-    return (
-      <View>
-        <Text>COMMANDE EFFECTUER</Text>
-        <Text>L'ARTISANT EST EN ROUTE</Text>
-      </View>
-    )
+    if (findPro) {
+      console.log("pas composant");
+      console.log(userIsOnService, findPro);
+      return (
+        <ServiceProInComming />
+      )
+    } else {
+      return (
+        <ServiceSearchPro />
+      )
+    }
+
   } else {
     if (consumerService.step === 1) {
       return (
@@ -41,5 +90,14 @@ export default function ServiceScreen({ navigation }) {
   }
 
 }
-// background: rgb(64,124,184);
-// background: linear-gradient(145deg, rgba(64,124,184,1) 0%, rgba(177,74,115,1) 100%);
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 50
+  },
+
+
+});

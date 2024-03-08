@@ -21,12 +21,13 @@ const Tab = createBottomTabNavigator();
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import user from './reducers/user';
+import ProScreen from "./screens/pro/ProScreen";
 
 const store = configureStore({
   reducer: { user, consumerServices },
- });
+});
 
- const TabNavigator = () => {
+const TabNavigator = () => {
   return (
     <Tab.Navigator screenOptions={({ route }) => ({
       tabBarIcon: ({ color, size }) => {
@@ -55,8 +56,8 @@ const store = configureStore({
       <Tab.Screen name="Profil" component={ProfilScreen} />
     </Tab.Navigator>
   );
- }
- 
+}
+
 export default function App() {
 
 
@@ -64,14 +65,15 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="TabNavigator" component={TabNavigator} />
+          <Stack.Screen name="Pro" component={ProScreen} />
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Acceuil" component={AcceuilScreen} />
           <Stack.Screen name="Connection" component={ConnectionScreen} />
           <Stack.Screen name="Inscription" component={RegisterScreen} />
-          <Stack.Screen name="TabNavigator" component={TabNavigator} />
         </Stack.Navigator>
       </NavigationContainer>
-  </Provider>
+    </Provider>
   );
 }
 
