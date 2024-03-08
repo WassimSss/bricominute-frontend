@@ -19,6 +19,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import ProfilScreen from './screens/consumer/ProfilScreen';
 import MessageScreen from './screens/consumer/MessageScreen';
 import ServiceScreen from './screens/consumer/ServiceScreen';
+import NotesScreen from './screens/consumer/NotesScreen'
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import consumerServices from './reducers/consumerServices'
@@ -85,6 +86,7 @@ export default function App() {
             <Stack.Screen name="Acceuil" component={AcceuilScreen} />
             <Stack.Screen name="Connection" component={ConnectionScreen} />
             <Stack.Screen name="Inscription" component={RegisterScreen} />
+            <Stack.Screen name="Note" component={NotesScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </PersistGate>
