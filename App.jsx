@@ -11,6 +11,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import ProfilScreen from './screens/consumer/ProfilScreen';
 import MessageScreen from './screens/consumer/MessageScreen';
 import ServiceScreen from './screens/consumer/ServiceScreen';
+import NotesScreen from './screens/consumer/NotesScreen'
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import consumerServices from './reducers/consumerServices'
@@ -64,6 +65,8 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
+        
+        <Stack.Screen name="Note" component={NotesScreen} />
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Acceuil" component={AcceuilScreen} />
           <Stack.Screen name="Connection" component={ConnectionScreen} />
