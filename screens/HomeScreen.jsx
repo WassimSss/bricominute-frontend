@@ -11,16 +11,16 @@ export default function HomeScreen({ navigation }) {
 
 	useEffect(() => {
 		// Si c'est un pro
-		if (user.pro) {
+		if (user.isPro === true) {
 			navigation.navigate('Pro');
-		} else if (user.pro) {
+		} else if (user.isPro === false) {
 			// Si c'est un particulier
 			navigation.navigate('TabNavigator');
 		} else {
 			// Si il est pas connecté
 			navigation.navigate('Home');
 		}
-	}, []);
+	}, [user.token]);
 	// useEffect(() => {
 	// 	checkTokenAndRedirect(navigation, user);
 	// }, []);

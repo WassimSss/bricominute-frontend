@@ -6,13 +6,45 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import * as geolib from 'geolib';
 import * as Location from 'expo-location';
 import { checkTokenAndRedirect } from '../../utils/checkTokenAndRedirect';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { disconnect } from '../../reducers/user';
 
 const ProScreen = ({ navigation }) => {
 	const user = useSelector((state) => state.user.value);
+	const [ isProOnline, setIsProOnline ] = useState(null);
 
+	const dispatch = useDispatch();
+
+	const handleDisconnect = () => {
+		dispatch(disconnect());
+	};
+
+	const handleConnect = () => {
+		fetch(`http://192.168.1.114:3000/user/changeIsOnline`, {
+			method: 'PUT',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ token: user.token })
+		})
+			.then((response) => response.json())
+			.then((data) => {
+				// console.log('datatest : ', data.user.professionalInfo.isOnline);
+				setIsProOnline(data.user.professionalInfo.isOnline)
+			});
+	};
+
+	// useEffect(
+	// 	() => {
+	// 		fetch(`http://192.168.1.114:3000/user/isOnline/${user.token}`)
+	// 			.then((response) => response.json())
+	// 			.then((data) => {
+	// 				console.log('isUserOnline : ', data);
+	// 			});
+	// 	},
+	// 	[ isProOnline ]
+	// );
 	useEffect(() => {
 		checkTokenAndRedirect(navigation, user);
+		// Met le pro en ligne
 	}, []);
 	const [ proLocation, setProLocation ] = useState({
 		latitude: null,
@@ -50,7 +82,7 @@ const ProScreen = ({ navigation }) => {
 
 			const vitesse = 40; //kilometre/h
 			const timeInMinute = Math.floor(distanceInKilometers / vitesse * 60);
-			console.log('timeInMinute :', timeInMinute);
+			// console.log('timeInMinute :', timeInMinute);
 			setTimeFromProToService(timeInMinute);
 		}
 	};
@@ -121,13 +153,13 @@ const ProScreen = ({ navigation }) => {
 					start={{ x: 0, y: 0 }}
 					end={{ x: 1, y: 1 }}
 				>
-					<TouchableOpacity onPress={() => distanceBetweenTwoPoint()} style={styles.button}>
-						<Text style={styles.textButton}>GO</Text>
+					<TouchableOpacity onPress={() => handleConnect()} style={styles.button}>
+						<Text style={styles.textButton}>{isProOnline ? 'STOP' : 'GO'}</Text>
 					</TouchableOpacity>
 				</LinearGradient>
 			</View>
 
-			<TouchableOpacity style={styles.burgerMenu}>
+			<TouchableOpacity style={styles.burgerMenu} onPress={() => handleDisconnect()}>
 				<View style={styles.burgerMenuBar} />
 				<View style={styles.burgerMenuBar} />
 				<View style={styles.burgerMenuBar} />
@@ -200,8 +232,8 @@ const ProScreen = ({ navigation }) => {
 			</View>
 
 			<View style={styles.footer}>
-				<Text style={styles.text}>HORS LIGNE</Text>
-				{console.log('test : ', timeFromProToService !== null)}
+				<Text style={styles.text}>{isProOnline ? 'EN LIGNE' : 'HORS LIGNE'}</Text>
+				{/* {console.log('test : ', timeFromProToService !== null)} */}
 				<Text style={styles.text}>{timeFromProToService !== null && timeFromProToService.toString()}mn</Text>
 				<Text style={styles.text}>
 					Distance : {distanceFromTheServiceInKm !== null && distanceFromTheServiceInKm}

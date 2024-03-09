@@ -2,7 +2,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect } from 'react';
-import checkTokenAndRedirect from '../../../utils/checkTokenAndRedirect';
+import {checkTokenAndRedirect} from '../../../utils/checkTokenAndRedirect';
 
 const ServiceSearchPro = ({ navigation }) => {
 	const user = useSelector((state) => state.user.value);

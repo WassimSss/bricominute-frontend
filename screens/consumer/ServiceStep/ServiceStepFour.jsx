@@ -4,7 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { goToStep, handleRefresh } from '../../../reducers/consumerServices';
 
 import React, { useEffect } from 'react';
-import checkTokenAndRedirect from '../../../utils/checkTokenAndRedirect';
+import {checkTokenAndRedirect} from '../../../utils/checkTokenAndRedirect';
 
 export default function ServiceStepFour({ navigation }) {
 	const user = useSelector((state) => state.user.value);
@@ -36,7 +36,7 @@ export default function ServiceStepFour({ navigation }) {
 		dispatch(handleRefresh());
 		console.log(consumerService.refresh);
 		const reformatedData = {
-			idUser: '65e6e7249333d0bcd3044e5a',
+			token: user.token,
 			idJob: consumerService.jobs,
 			idJobTask: consumerService.jobTasks,
 			Date: consumerService.date,

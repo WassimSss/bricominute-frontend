@@ -12,32 +12,23 @@ export default function RegisterScreen({ navigation }) {
 	const [ signUpLastName, setSignUpLastName ] = useState('');
 	const [ signUpEmail, setSignUpEmail ] = useState('');
 	const [ signUpPassword, setSignUpPassword ] = useState('');
-	// const currentPage = getCurrentRoute(navigation)
+
 	console.log('register');
-	// console.log('currentPage : ', currentPage);
 	const user = useSelector((state) => state.user.value);
-	// const [ pageWantedToGo, setPageWantedToGo ] = useState('Inscription');
+
 	useEffect(() => {
-		if (user.pro) {
+		if (user.isPro === true) {
 			navigation.navigate('Pro');
-		} else if (user.pro) {
+		} else if (user.isPro === false) {
 			// Si c'est un particulier
 			navigation.navigate('TabNavigator');
 		} else {
 			// Si il est pas connecté
 			navigation.navigate('Inscription');
 		}
-	}, []);
+	}, [user.token]);
 
 	const dispatch = useDispatch();
-
-	// useEffect(
-	// 	() => {
-	// 		console.log('pageWantedToGo : ', pageWantedToGo);
-	// 		checkTokenAndRedirect(navigation, user, pageWantedToGo);
-	// 	},
-	// 	[ pageWantedToGo,  ]
-	// );
 
 	const handleRegister = () => {
 		console.log(checked, signUpFirstName, signUpLastName, signUpEmail, signUpPassword);

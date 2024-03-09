@@ -2,7 +2,7 @@ import { View, ActivityIndicator, StyleSheet, Dimensions, Text } from 'react-nat
 import MapView from 'react-native-maps';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import React, { useEffect } from 'react';
-import checkTokenAndRedirect from '../../../utils/checkTokenAndRedirect';
+import { checkTokenAndRedirect } from '../../../utils/checkTokenAndRedirect';
 import { useSelector } from 'react-redux';
 
 const ServiceProInComming = ({ navigation }) => {

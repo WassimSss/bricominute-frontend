@@ -2,42 +2,25 @@ import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-nativ
 import { useEffect, useState } from 'react';
 import { AddLoginToStore } from '../reducers/user';
 import { useDispatch, useSelector } from 'react-redux';
-// import { checkTokenAndRedirect } from '../utils/checkTokenAndRedirect';
 
-export default function HomeScreen({ navigation }) {
+export default function ConnectionScreen({ navigation }) {
 	const user = useSelector((state) => state.user.value);
-	// const [ pageWantedToGo, setPageWantedToGo ] = useState('Connection');
-	// const [ refresh, setRefresh ] = useState(false);
+
 	console.log('connection');
 	// Si c'est un pro
 	useEffect(() => {
-		if (user.pro) {
+		if (user.isPro === true) {
 			navigation.navigate('Pro');
-		} else if (user.pro) {
+		} else if (user.isPro === false) {
 			// Si c'est un particulier
 			navigation.navigate('TabNavigator');
-		} else {
+		}else {
 			// Si il est pas connecté
 			navigation.navigate('Connection');
 		}
-	}, []);
+	}, [user.token]);
 
 	const dispatch = useDispatch();
-
-	// useEffect(
-	// 	() => {
-	// 		console.log('pageWantedToGo : ', pageWantedToGo);
-	// 		checkTokenAndRedirect(navigation, user, pageWantedToGo);
-	// 	},
-	// 	[ refresh,  ]
-	// );
-
-	const handleTest = () => {
-		console.log('test avant : ', pageWantedToGo);
-		setRefresh(!refresh);
-		setPageWantedToGo('Inscription');
-		// console.log('test APRES  : ', pageWantedToGo);
-	};
 
 	const [ signInEmail, setSignInEmail ] = useState('');
 	const [ signInPassword, setSignInPassword ] = useState('');

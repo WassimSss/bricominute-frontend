@@ -9,7 +9,7 @@ import ServiceSearchPro from './ServiceStep/ServiceSearchPro';
 import ServiceProInComming from './ServiceStep/ServiceProInComming';
 import React, { useEffect, useState } from 'react';
 
-import {checkTokenAndRedirect} from '../../utils/checkTokenAndRedirect';
+import { checkTokenAndRedirect } from '../../utils/checkTokenAndRedirect';
 
 export default function ServiceScreen({ navigation }) {
 	const user = useSelector((state) => state.user.value);
@@ -27,7 +27,7 @@ export default function ServiceScreen({ navigation }) {
 	// Pour l'instant en dur, mais voir si l'user a deja commandée un service a partir de la base de données
 	useEffect(
 		() => {
-			fetch(`http://192.168.1.114:3000/user/isOnService/${idUser}`)
+			fetch(`http://192.168.1.114:3000/user/isOnService/${user.token}`)
 				.then((response) => response.json())
 				.then((isOnService) => {
 					console.log('isOnService : ', isOnService);
@@ -69,19 +69,19 @@ export default function ServiceScreen({ navigation }) {
 		if (findPro) {
 			console.log('pas composant');
 			console.log(userIsOnService, findPro);
-			return <ServiceProInComming />;
+			return <ServiceProInComming navigation={navigation} />;
 		} else {
-			return <ServiceSearchPro />;
+			return <ServiceSearchPro navigation={navigation} />;
 		}
 	} else {
 		if (consumerService.step === 1) {
-			return <ServiceStepOne />;
+			return <ServiceStepOne navigation={navigation} />;
 		} else if (consumerService.step === 2) {
-			return <ServiceStepTwo />;
+			return <ServiceStepTwo navigation={navigation} />;
 		} else if (consumerService.step === 3) {
-			return <ServiceStepThree />;
+			return <ServiceStepThree navigation={navigation} />;
 		} else if (consumerService.step === 4) {
-			return <ServiceStepFour />;
+			return <ServiceStepFour navigation={navigation} />;
 		}
 	}
 }

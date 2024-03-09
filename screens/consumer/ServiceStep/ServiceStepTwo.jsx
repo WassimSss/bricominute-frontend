@@ -10,7 +10,7 @@ import {
 	previousStep
 } from '../../../reducers/consumerServices';
 import React, { useEffect, useState } from 'react';
-import checkTokenAndRedirect from '../../../utils/checkTokenAndRedirect';
+import {checkTokenAndRedirect} from '../../../utils/checkTokenAndRedirect';
 
 export default function ServiceStepTwo({ navigation }) {
 	const user = useSelector((state) => state.user.value);

@@ -8,7 +8,7 @@ import { LocaleConfig } from 'react-native-calendars';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 
 import React, { useEffect } from 'react';
-import checkTokenAndRedirect from '../../../utils/checkTokenAndRedirect';
+import {checkTokenAndRedirect} from '../../../utils/checkTokenAndRedirect';
 
 export default function ServiceStepThree({ navigation }) {
 	const user = useSelector((state) => state.user.value);
