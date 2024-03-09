@@ -21,7 +21,7 @@ export default function ServiceScreen({ navigation }) {
 
   // Pour l'instant en dur, mais voir si l'user a deja commandée un service a partir de la base de données
   useEffect(() => {
-    fetch(`http://10.20.2.115:3000/user/isOnService/${idUser}`)
+    fetch(`http://192.168.1.156:3000/user/isOnService/${idUser}`)
       .then(response => response.json())
       .then(isOnService => {
         console.log("isOnService : ", isOnService);
@@ -30,17 +30,17 @@ export default function ServiceScreen({ navigation }) {
         // Effectuer la deuxième requête uniquement si l'utilisateur est en service
         if (isOnService.result) {
           const idOrder = '65eb3e887942b0cc296213b0';
-          fetch(`http://10.20.2.115:3000/orders/getIdAddress/${idOrder}`)
+          fetch(`http://192.168.1.156:3000/orders/getIdAddress/${idOrder}`)
             .then(response => response.json())
             .then(data => {
               // On recup lat et long de l'addresse avec le deuxieme fetch
               // grace a l'id addresse
               console.log('dataGetIdAddress : ', data);
-              fetch(`http://10.20.2.115:3000/address/${data.IdAddress}`)
+              fetch(`http://192.168.1.156:3000/address/${data.IdAddress}`)
                 .then(response => response.json())
                 .then(position => {
                   console.log('position : ', position);
-                  fetch(`http://10.20.2.115:3000/user/findUserNearbyAndGiveOrder/${position.latitude}/${position.longitude}/${idOrder}`)
+                  fetch(`http://192.168.1.156:3000/user/findUserNearbyAndGiveOrder/${position.latitude}/${position.longitude}/${idOrder}`)
                     .then(response => response.json())
                     .then(isProFinded => {
                       console.log('isProFinded : ', isProFinded);

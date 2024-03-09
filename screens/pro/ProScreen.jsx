@@ -22,7 +22,7 @@ const ProScreen = () => {
 
         const idOrderAddress = '65e5ec8fa7d7b53b75681b38';
         try {
-            const response = await fetch(`http://10.20.2.115:3000/address/${idOrderAddress}`);
+            const response = await fetch(`http://192.168.1.156:3000/address/${idOrderAddress}`);
             const orderLocation = await response.json();
             // console.log(orderLocation);
             return orderLocation;

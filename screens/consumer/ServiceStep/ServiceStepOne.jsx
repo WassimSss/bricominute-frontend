@@ -32,7 +32,7 @@ export default function ServiceStepOne({ navigation }) {
   }
 
   useEffect(() => {
-    fetch('http://10.20.2.115:3000/job')
+    fetch('http://192.168.1.156:3000/job')
       .then(response => response.json())
       .then(data => {
         //console.log(data);

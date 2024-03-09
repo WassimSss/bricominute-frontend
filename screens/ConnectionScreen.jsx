@@ -11,7 +11,7 @@ export default function HomeScreen({ navigation }) {
   const handleConnection = () => {
     console.log('coucou');
 
-    fetch('http://10.20.2.115:3000/user/signin', {
+    fetch('http://192.168.1.156:3000/user/signin', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: signInEmail, password: signInPassword }),

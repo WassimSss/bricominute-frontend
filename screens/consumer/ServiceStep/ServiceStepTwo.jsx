@@ -43,7 +43,7 @@ export default function ServiceStepTwo({ navigation }) {
   useEffect(() => {
     const fetchTasks = async () => {
       const promises = consumerService.jobs.map(async (job) => {
-        const response = await fetch(`http://10.20.2.115:3000/job/getJobTasks/${job.idJob}`);
+        const response = await fetch(`http://192.168.1.156:3000/job/getJobTasks/${job.idJob}`);
         const data = await response.json();
         return data.data;
       });
