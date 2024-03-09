@@ -3,9 +3,16 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import React, { useState } from 'react';
 import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
+import { useSelector } from 'react-redux';
+import { checkTokenAndRedirect } from '../utils/checkTokenAndRedirect';
 
-export default function DocumentScreen() {
+export default function DocumentScreen({navigation}) {
   const BACKEND_ADDRESS = 'http://10.20.2.120:3000';
+  const user = useSelector((state) => state.user.value);
+
+	useEffect(() => {
+		checkTokenAndRedirect(navigation, user);
+	}, []);
 
 
   const [selectedFiles, setSelectedFiles] = useState([]);
@@ -145,7 +152,7 @@ const styles = StyleSheet.create({
       title:{
         fontSize:39,
         fontWeight:'bold',
-        fontFamily: "Futura",
+        // fontFamily: "Futura",
         marginBottom: 20,
         textAlign: 'center'
       },
@@ -170,7 +177,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 39,
     fontWeight: 'bold',
-    fontFamily: "Futura",
+    // fontFamily: "Futura",
     marginBottom: 20,
     textAlign: 'center'
   },
@@ -223,7 +230,7 @@ const styles = StyleSheet.create({
 
 
   button: {
-    fontFamily: "Futura",
+    // fontFamily: "Futura",
     fontWeight: 'bold',
     fontSize: 20,
     color: 'white',

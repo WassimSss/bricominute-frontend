@@ -80,12 +80,13 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="Pro" component={ProScreen} />
-          <Stack.Screen name="TabNavigator" component={TabNavigator} />
-          <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Acceuil" component={AcceuilScreen} />
+          <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Connection" component={ConnectionScreen} />
           <Stack.Screen name="Inscription" component={RegisterScreen} />
+          {/* Ecran de connexion */}
+          <Stack.Screen name="TabNavigator" component={TabNavigator} />
+          <Stack.Screen name="Pro" component={ProScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
