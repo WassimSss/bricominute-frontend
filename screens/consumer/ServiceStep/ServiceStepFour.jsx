@@ -4,7 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { goToStep, handleRefresh } from '../../../reducers/consumerServices';
 
 import React, { useEffect } from 'react';
-import {checkTokenAndRedirect} from '../../../utils/checkTokenAndRedirect';
+import { checkTokenAndRedirect } from '../../../utils/checkTokenAndRedirect';
 
 export default function ServiceStepFour({ navigation }) {
 	const user = useSelector((state) => state.user.value);
@@ -45,7 +45,7 @@ export default function ServiceStepFour({ navigation }) {
 			IdAddress: '202020'
 		};
 
-		fetch('http://192.168.1.114:3000/orders', {
+		fetch('http://10.20.2.115:3000/orders', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(reformatedData)
@@ -82,7 +82,7 @@ export default function ServiceStepFour({ navigation }) {
 			<View style={styles.containerButton}>
 				<LinearGradient
 					// Button Linear Gradient
-					colors={[ '#407CB8', '#B14A73' ]}
+					colors={['#407CB8', '#B14A73']}
 					style={styles.button}
 					start={{ x: 0, y: 0 }}
 					end={{ x: 1, y: 1 }}
@@ -94,7 +94,7 @@ export default function ServiceStepFour({ navigation }) {
 
 				<LinearGradient
 					// Button Linear Gradient
-					colors={[ '#407CB8', '#B14A73' ]}
+					colors={['#407CB8', '#B14A73']}
 					style={styles.button}
 					start={{ x: 0, y: 0 }}
 					end={{ x: 1, y: 1 }}

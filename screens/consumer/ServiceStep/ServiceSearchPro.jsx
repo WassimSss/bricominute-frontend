@@ -1,19 +1,20 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect } from 'react';
-import {checkTokenAndRedirect} from '../../../utils/checkTokenAndRedirect';
+import { checkTokenAndRedirect } from '../../../utils/checkTokenAndRedirect';
 
-const ServiceSearchPro = ({ navigation }) => {
+const ServiceSearchPro = ({ cancelOrder, navigation }) => {
 	const user = useSelector((state) => state.user.value);
-
+	// console.log('proprs : ', props);
 	useEffect(() => {
 		checkTokenAndRedirect(navigation, user);
 	}, []);
+
+
 	const idOrder = '65e9879330bf1f32ff2218cc';
 	const idUser = '65e5ec8fa7d7b53b75681b38';
 	// const consumerService = useSelector(state => state.consumerService.value)
-
 	// Recuperer l'addresse de l'order
 	const test = () => {
 		console.log('yo');
@@ -27,10 +28,10 @@ const ServiceSearchPro = ({ navigation }) => {
 		//     IdAddress: '202020'
 		// }
 		// On recup l'id de l'addresse avec le premier fetch
-		fetch(`http://192.168.1.114:3000/orders/getIdAddress/${idOrder}`).then((data) => {
+		fetch(`http://10.20.2.115:3000/orders/getIdAddress/${idOrder}`).then((data) => {
 			// On recup lat et long de l'addresse avec le deuxieme fetch
 			// grace a l'id addresse
-			fetch(`http://192.168.1.114:3000/address/${data.idAddress}`).then((position) => {
+			fetch(`http://10.20.2.115:3000/address/${data.idAddress}`).then((position) => {
 				console.log(position);
 			});
 		});
@@ -40,17 +41,17 @@ const ServiceSearchPro = ({ navigation }) => {
 
 	// useEffect(() => {
 	//     console.log('yo');
-	//     fetch(`http://192.168.1.114:3000/orders/getIdAddress/${idOrder}`)
+	//     fetch(`http://10.20.2.115:3000/orders/getIdAddress/${idOrder}`)
 	//         .then(response => response.json())
 	//         .then(data => {
 	//             console.log('data : ', data);
 	//             // On recup lat et long de l'addresse avec le deuxieme fetch
 	//             // grace a l'id addresse
-	//             fetch(`http://192.168.1.114:3000/address/${data.IdAddress}`)
+	//             fetch(`http://10.20.2.115:3000/address/${data.IdAddress}`)
 	//                 .then(response => response.json())
 	//                 .then(position => {
 	//                     console.log('position : ', position);
-	//                     fetch(`http://192.168.1.114:3000/user/findUserNearbyAndGiveOrder/${position.latitude}/${position.longitude}/${idOrder}`)
+	//                     fetch(`http://10.20.2.115:3000/user/findUserNearbyAndGiveOrder/${position.latitude}/${position.longitude}/${idOrder}`)
 	//                         .then(response => response.json())
 	//                         .then(userNearby => {
 	//                             console.log('userNearby : ', userNearby);
@@ -63,6 +64,9 @@ const ServiceSearchPro = ({ navigation }) => {
 		<View style={styles.container}>
 			<Text style={styles.title}>Recherche d'artisan en cours</Text>
 			<LoadingSpinner />
+			<TouchableOpacity style={styles.button} onPress={() => cancelOrder()}>
+				<Text>Annuler ma commande </Text>
+			</TouchableOpacity>
 		</View>
 	);
 };

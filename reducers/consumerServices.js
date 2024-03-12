@@ -44,9 +44,25 @@ export const consumerServicesSlice = createSlice({
     },
     handleRefresh: (state, action) => {
       state.value.refresh = !state.value.refresh
+    },
+    handleRefreshToActionPayload: (state, action) => {
+      state.value.refresh = action.payload
+
+    },
+    resetData: (state, action) => {
+      state.value = {
+        step: 1,
+        jobs: [],
+        jobTasks: [],
+        date: null,
+        status: false,
+        price: 0,
+        idAddress: null,
+        refresh: !state.value.refresh
+      }
     }
   },
 });
 
-export const { addJobToSore, deleteJobToStore, addJobTaskToSore, deleteJobTaskToStore, setDate, goToStep, previousStep, nextStep, handleRefresh } = consumerServicesSlice.actions;
+export const { addJobToSore, deleteJobToStore, addJobTaskToSore, deleteJobTaskToStore, setDate, goToStep, previousStep, nextStep, handleRefresh, handleRefreshToActionPayload, resetData } = consumerServicesSlice.actions;
 export default consumerServicesSlice.reducer;

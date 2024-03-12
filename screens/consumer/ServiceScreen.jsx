@@ -1,5 +1,5 @@
 import ServiceStepOne from './ServiceStep/ServiceStepOne';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import ServiceStepTwo from './ServiceStep/ServiceStepTwo';
 import ServiceStepThree from './ServiceStep/ServiceStepThree';
 import ServiceStepFour from './ServiceStep/ServiceStepFour';
@@ -7,12 +7,24 @@ import { Text, View, StyleSheet } from 'react-native';
 import MapView from 'react-native-maps';
 import ServiceSearchPro from './ServiceStep/ServiceSearchPro';
 import ServiceProInComming from './ServiceStep/ServiceProInComming';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { checkTokenAndRedirect } from '../../utils/checkTokenAndRedirect';
+import { handleRefresh, resetData } from '../../reducers/consumerServices';
+// import { useIsFocused } from '@react-navigation/native';
+
+
 
 export default function ServiceScreen({ navigation }) {
+	// const isFocused = useIsFocused();
+
 	const user = useSelector((state) => state.user.value);
+	const [userIsOnService, setUserIsOnService] = useState(false);
+	const [findPro, setFindPro] = useState(false);
+	const [idOrder, setIdOrder] = useState('');
+	const idUser = '65e6e7249333d0bcd3044e5a';
+	const dispatch = useDispatch();
+	const intervalIdRef = useRef(null);
 
 	useEffect(() => {
 		checkTokenAndRedirect(navigation, user);
@@ -20,58 +32,115 @@ export default function ServiceScreen({ navigation }) {
 
 	const consumerService = useSelector((state) => state.consumerServices.value);
 
-	const [ userIsOnService, setUserIsOnService ] = useState(false);
-	const [ findPro, setFindPro ] = useState(false);
-	const idUser = '65e6e7249333d0bcd3044e5a';
 
-	// Pour l'instant en dur, mais voir si l'user a deja commandée un service a partir de la base de données
-	useEffect(
-		() => {
-			fetch(`http://192.168.1.114:3000/user/isOnService/${user.token}`)
+
+	const findUser = (isOnService, interval) => {
+		console.log('isOnServiceOfTheFunction : ', isOnService)
+		console.log('findPro : ', findPro)
+
+
+
+		if (isOnService.result) {
+			// console.log('it is true lol');
+			// Récupérer l'ID de la commande
+			const idOrder = isOnService.idOrder;
+			fetch(`http://10.20.2.115:3000/orders/getIdAddress/${idOrder}`)
 				.then((response) => response.json())
-				.then((isOnService) => {
-					console.log('isOnService : ', isOnService);
-					setUserIsOnService(isOnService.result);
-
-					// Effectuer la deuxième requête uniquement si l'utilisateur est en service
-					if (isOnService.result) {
-						const idOrder = '65eb3e887942b0cc296213b0';
-						fetch(`http://192.168.1.114:3000/orders/getIdAddress/${idOrder}`)
-							.then((response) => response.json())
-							.then((data) => {
-								// On recup lat et long de l'addresse avec le deuxieme fetch
-								// grace a l'id addresse
-								console.log('dataGetIdAddress : ', data);
-								fetch(`http://192.168.1.114:3000/address/${data.IdAddress}`)
-									.then((response) => response.json())
-									.then((position) => {
-										console.log('position : ', position);
-										fetch(
-											`http://192.168.1.114:3000/user/findUserNearbyAndGiveOrder/${position.latitude}/${position.longitude}/${idOrder}`
-										)
-											.then((response) => response.json())
-											.then((isProFinded) => {
-												console.log('isProFinded : ', isProFinded);
-												if (isProFinded) {
-													setFindPro(isProFinded.result);
-												}
-											});
-									});
-							});
-					}
+				.then((addressData) => {
+					// On recup lat et long de l'addresse avec le deuxieme fetch
+					// grace a l'id addresse
+					// console.log('dataGetIdAddress : ', addressData);
+					fetch(`http://10.20.2.115:3000/address/${addressData.IdAddress}`)
+						.then((response) => response.json())
+						.then((position) => {
+							console.log('position : ', position);
+							fetch(
+								`http://10.20.2.115:3000/user/findUserNearbyAndGiveOrder/${position.latitude}/${position.longitude}/${idOrder}`
+							)
+								.then((response) => response.json())
+								.then((isProFinded) => {
+									// console.log('isProFinded : ', isProFinded);
+									if (isProFinded) {
+										setFindPro(isProFinded.result);
+										// dispatch(handleRefresh())
+									}
+								});
+						});
 				});
-		},
-		[ consumerService.refresh ]
-	);
+		}
+	}
+	// Pour l'instant en dur, mais voir si l'user a deja commandée un service a partir de la base de données
+	useEffect(() => {
+		const checkUserOrder = async () => {
+			try {
+				const response = await fetch(`http://10.20.2.115:3000/user/isOnOrder/${user.token}`);
+				const isOnService = await response.json();
+				setUserIsOnService(isOnService.result);
+				setIdOrder(isOnService.idOrder);
+
+				if (isOnService.result) {
+					const idOrder = isOnService.idOrder;
+					const addressResponse = await fetch(`http://10.20.2.115:3000/orders/getIdAddress/${idOrder}`);
+					const addressData = await addressResponse.json();
+					const positionResponse = await fetch(`http://10.20.2.115:3000/address/${addressData.IdAddress}`);
+					const position = await positionResponse.json();
+
+					if (!findPro) {
+						intervalIdRef.current = setInterval(() => {
+							console.log('interval...');
+							fetch(`http://10.20.2.115:3000/user/findUserNearbyAndGiveOrder/${position.latitude}/${position.longitude}/${idOrder}`)
+								.then((response) => response.json())
+								.then((isProFinded) => {
+									console.log('isProFinded : ', isProFinded);
+									if (isProFinded.result) {
+										clearInterval(intervalIdRef.current);
+										dispatch(handleRefresh())
+										setFindPro(isProFinded.result);
+									}
+								});
+						}, 2000);
+					}
+
+				}
+			} catch (error) {
+				console.error('Error while checking user order:', error);
+			}
+		};
+		checkUserOrder();
+		// }
+
+		return () => {
+			console.log('demonté ! ');
+			// clearInterval(intervalIdRef.current);
+		};
+
+
+	}, [/*isFocused*/, findPro, consumerService.refresh]);
+
+	const cancelOrder = () => {
+		fetch(`http://10.20.2.115:3000/orders/delete/${idOrder}`,
+			{
+				method: 'DELETE',
+				headers: { 'Content-Type': 'application/json' },
+				// body: JSON.stringify(reformatedData)
+			})
+			.then(response => response.json())
+			.then(data => {
+				console.log('delete : ', data);
+				dispatch(resetData())
+				clearInterval(intervalIdRef.current);
+			})
+
+	}
 
 	// const findPro = false
 	if (userIsOnService) {
-		if (findPro) {
-			console.log('pas composant');
-			console.log(userIsOnService, findPro);
-			return <ServiceProInComming navigation={navigation} />;
+		if (findPro === 'test') {
+			// console.log('pas composant');
+			// console.log(userIsOnService, findPro);
+			return <Text>EN ATTENTE D ACCEPTATION</Text>;
 		} else {
-			return <ServiceSearchPro navigation={navigation} />;
+			return <ServiceSearchPro navigation={navigation} cancelOrder={cancelOrder} />;
 		}
 	} else {
 		if (consumerService.step === 1) {
