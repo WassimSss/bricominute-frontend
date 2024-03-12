@@ -7,10 +7,14 @@ import ConnectionScreen from './screens/ConnectionScreen';
 import HomeScreen from './screens/HomeScreen';
 import HomeScreenConsumer from './screens/consumer/HomeScreenConsumer';
 import DocumentScreen from './screens/DocumentScreen';
+import ProinscriptionScreen from "./screens/ProinscriptionScreen";
+import PaiementScreen from "./screens/PaiementScreen";
 import { persistStore, persistReducer } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import user from './reducers/user';
+import inscription from './reducers/inscription';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
@@ -26,7 +30,7 @@ import consumerServices from './reducers/consumerServices'
 import { Provider } from 'react-redux';
 
 
-const reducers = combineReducers({ consumerServices, user });
+const reducers = combineReducers({ consumerServices, user, inscription});
 const persistConfig = { key: 'bricominute', storage: AsyncStorage };
 
 const store = configureStore({
@@ -80,13 +84,16 @@ export default function App() {
         <NavigationContainer>
           <Stack.Navigator screenOptions={{ headerShown: false }}>
 
+            <Stack.Screen name="Inscription" component={RegisterScreen} />
             <Stack.Screen name="TabNavigator" component={TabNavigator} />
             <Stack.Screen name="Document" component={DocumentScreen} />
             <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="Acceuil" component={AcceuilScreen} />
             <Stack.Screen name="Connection" component={ConnectionScreen} />
-            <Stack.Screen name="Inscription" component={RegisterScreen} />
             <Stack.Screen name="Note" component={NotesScreen} />
+            <Stack.Screen name="inscriptionpro" component={ProinscriptionScreen} />
+            <Stack.Screen name="paiement" component={PaiementScreen} />
+
           </Stack.Navigator>
         </NavigationContainer>
       </PersistGate>

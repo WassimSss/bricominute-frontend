@@ -12,6 +12,7 @@ export const userSlice = createSlice({
       state.value.email = action.payload.email;
       state.value.token = action.payload.token;
     },
+    
 
   },
 });

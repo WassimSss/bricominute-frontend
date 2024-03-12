@@ -1,7 +1,9 @@
 import { StyleSheet, Text, View,TouchableOpacity,TextInput,Button,} from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 
-export default function PaiementScreen() {
+export default function PaiementScreen({ navigation }) {
+
+
     return (
 
         <View style={styles.container}>
@@ -29,9 +31,7 @@ export default function PaiementScreen() {
      <Text style={styles.textButton1}>Etape 3/3</Text> 
      </View>
     <TouchableOpacity
-            onPress={() => handleSubmit()}
-            style={styles.button}
-            activeOpacity={0.8}>    
+>    
             <Text style={styles.textButton2}>Précedent</Text>
             <FontAwesome name='arrow-left' size={50} color='#b14a73'/>      
             </TouchableOpacity>
@@ -42,12 +42,10 @@ export default function PaiementScreen() {
 }
 const styles = StyleSheet.create({
     container:{
-
-
-    alignItems:'center',
-    justifyContent:'center',
-    flex:'1',
-    },
+        alignItems:'center',
+        justifyContent:'center',
+        flex:1,
+        },
     
     
     blockHaut: {
@@ -62,7 +60,6 @@ const styles = StyleSheet.create({
       title:{
         fontSize:39,
         fontWeight:'bold',
-        fontFamily: "Futura",
         marginBottom: 20,
         textAlign: 'center'
       },
@@ -118,7 +115,6 @@ const styles = StyleSheet.create({
    
     
      button: {
-            fontFamily: "Futura",
             fontWeight:'bold',
             fontSize:20,
             color: 'white',
