@@ -12,6 +12,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import user from './reducers/user';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import InscriptionproScreen from './screens/InscriptionproScreen';
 
 
 
@@ -78,7 +79,8 @@ export default function App() {
       <PersistGate persistor={persistor}> 
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-       
+
+         <Stack.Screen name="Insciptionpro" component={InscriptionproScreen} />
           <Stack.Screen name="TabNavigator" component={TabNavigator} />
         <Stack.Screen name="Document" component={DocumentScreen} />
           <Stack.Screen name="Home" component={HomeScreen} />
