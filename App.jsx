@@ -16,6 +16,7 @@ import user from './reducers/user';
 import inscription from './reducers/inscription';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import InscriptionproScreen from './screens/InscriptionproScreen';
 
 
 
@@ -80,6 +81,7 @@ export default function App() {
 
   return (
     <Provider store={store}>
+<<<<<<< HEAD
       <PersistGate persistor={persistor}>
         <NavigationContainer>
           <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -96,6 +98,21 @@ export default function App() {
 
           </Stack.Navigator>
         </NavigationContainer>
+=======
+      <PersistGate persistor={persistor}> 
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+
+         <Stack.Screen name="Insciptionpro" component={InscriptionproScreen} />
+          <Stack.Screen name="TabNavigator" component={TabNavigator} />
+        <Stack.Screen name="Document" component={DocumentScreen} />
+          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="Acceuil" component={AcceuilScreen} />
+          <Stack.Screen name="Connection" component={ConnectionScreen} />
+          <Stack.Screen name="Inscription" component={RegisterScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+>>>>>>> specialites-pro
       </PersistGate>
     </Provider>
   );
