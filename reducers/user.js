@@ -5,7 +5,6 @@ const initialState = {
 };
 
 export const userSlice = createSlice({
-<<<<<<< HEAD
 	name: 'user',
 	initialState,
 	reducers: {
@@ -20,18 +19,6 @@ export const userSlice = createSlice({
 			state.value.isPro = null;
 		}
 	}
-=======
-  name: 'user',
-  initialState,
-  reducers: {
-    AddLoginToStore: (state, action) => {
-      state.value.email = action.payload.email;
-      state.value.token = action.payload.token;
-    },
-    
-
-  },
->>>>>>> reducer_inscription
 });
 
 export const { AddLoginToStore, disconnect } = userSlice.actions;
