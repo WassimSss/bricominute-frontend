@@ -2,6 +2,7 @@ import { Button, StyleSheet, Text, View, Image, ImageBackground, TouchableOpacit
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { checkTokenAndRedirect } from '../utils/checkTokenAndRedirect';
 import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
 // import { useDispatch } from "react-redux";
 // import { updateEmail } from "../reducers/user";
 // import { NavigationProp, ParamListBase } from "@react-navigation/native";

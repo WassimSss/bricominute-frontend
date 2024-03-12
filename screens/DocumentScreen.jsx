@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
 import { useSelector } from 'react-redux';
@@ -15,9 +15,9 @@ export default function DocumentScreen({ navigation }) {
   const BACKEND_ADDRESS = 'http://10.20.2.120:3000';
   const user = useSelector((state) => state.user.value);
 
-	useEffect(() => {
-		checkTokenAndRedirect(navigation, user);
-	}, []);
+	// useEffect(() => {
+	// 	checkTokenAndRedirect(navigation, user);
+	// }, []);
 
 
   const [selectedFiles, setSelectedFiles] = useState([]);
@@ -104,10 +104,10 @@ export default function DocumentScreen({ navigation }) {
       }).then(response => response.json())
         .then(data => {
           console.log(data);
+          navigation.navigate('paiement')
         })
 
         })
-        // navigation.navigate('paiement')
     }
     }
 

@@ -2,13 +2,14 @@ import { StyleSheet, Text, View, TouchableOpacity, TextInput, Button } from 'rea
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { checkTokenAndRedirect } from '../utils/checkTokenAndRedirect';
 import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
 
 export default function PaiementScreen({ navigation }) {
 	const user = useSelector((state) => state.user.value);
 
-	useEffect(() => {
-		checkTokenAndRedirect(navigation, user);
-	}, []);
+	// useEffect(() => {
+	// 	checkTokenAndRedirect(navigation, user);
+	// }, []);
 	return (
 		<View style={styles.container}>
 			<View style={styles.blockHaut}>
@@ -43,7 +44,7 @@ const styles = StyleSheet.create({
 	container: {
 		alignItems: 'center',
 		justifyContent: 'center',
-		flex: '1'
+		flex: 1
 	},
 
 	blockHaut: {

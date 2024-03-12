@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, TouchableWithoutFeedback  } from 'react-native';
 import { RadioButton } from 'react-native-paper';
@@ -61,8 +61,17 @@ export default function RegisterScreen({ navigation }) {
                         isPro: inscriptionInfo.isPro,
                     }),
                 }).then(response => response.json())
+                .then( (data) => {
+                    if(data.result){
+                        navigation.navigate('Home');
+                    } else {
+                        setErrorMessage(data.error)
+                    }
+                    console.log('test : ', data);
+
+                }
+                )
     
-                navigation.navigate('Home');
             }
         }
     };
