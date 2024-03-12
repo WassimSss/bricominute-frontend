@@ -28,10 +28,10 @@ const ServiceSearchPro = ({ cancelOrder, navigation }) => {
 		//     IdAddress: '202020'
 		// }
 		// On recup l'id de l'addresse avec le premier fetch
-		fetch(`http://10.20.2.115:3000/orders/getIdAddress/${idOrder}`).then((data) => {
+		fetch(`http://10.20.2.120:3000/orders/getIdAddress/${idOrder}`).then((data) => {
 			// On recup lat et long de l'addresse avec le deuxieme fetch
 			// grace a l'id addresse
-			fetch(`http://10.20.2.115:3000/address/${data.idAddress}`).then((position) => {
+			fetch(`http://10.20.2.120:3000/address/${data.idAddress}`).then((position) => {
 				console.log(position);
 			});
 		});
@@ -41,17 +41,17 @@ const ServiceSearchPro = ({ cancelOrder, navigation }) => {
 
 	// useEffect(() => {
 	//     console.log('yo');
-	//     fetch(`http://10.20.2.115:3000/orders/getIdAddress/${idOrder}`)
+	//     fetch(`http://10.20.2.120:3000/orders/getIdAddress/${idOrder}`)
 	//         .then(response => response.json())
 	//         .then(data => {
 	//             console.log('data : ', data);
 	//             // On recup lat et long de l'addresse avec le deuxieme fetch
 	//             // grace a l'id addresse
-	//             fetch(`http://10.20.2.115:3000/address/${data.IdAddress}`)
+	//             fetch(`http://10.20.2.120:3000/address/${data.IdAddress}`)
 	//                 .then(response => response.json())
 	//                 .then(position => {
 	//                     console.log('position : ', position);
-	//                     fetch(`http://10.20.2.115:3000/user/findUserNearbyAndGiveOrder/${position.latitude}/${position.longitude}/${idOrder}`)
+	//                     fetch(`http://10.20.2.120:3000/user/findUserNearbyAndGiveOrder/${position.latitude}/${position.longitude}/${idOrder}`)
 	//                         .then(response => response.json())
 	//                         .then(userNearby => {
 	//                             console.log('userNearby : ', userNearby);

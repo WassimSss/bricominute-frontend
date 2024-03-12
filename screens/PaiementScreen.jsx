@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, Button } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { checkTokenAndRedirect } from '../utils/authUtils';
+import { checkTokenAndRedirect } from '../utils/checkTokenAndRedirect';
 import { useSelector } from 'react-redux';
 
 export default function PaiementScreen({ navigation }) {

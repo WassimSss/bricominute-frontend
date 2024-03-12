@@ -27,7 +27,7 @@ export default function ConnectionScreen({ navigation }) {
 	const handleConnection = () => {
 		console.log('coucou');
 
-		fetch('http://10.20.2.115:3000/user/signin', {
+		fetch('http://10.20.2.120:3000/user/signin', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ email: signInEmail, password: signInPassword })

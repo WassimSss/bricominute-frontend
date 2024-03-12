@@ -24,7 +24,7 @@ const ProScreen = ({ navigation }) => {
 	};
 
 	const handleConnect = () => {
-		fetch(`http://10.20.2.115:3000/user/changeIsOnline`, {
+		fetch(`http://10.20.2.120:3000/user/changeIsOnline`, {
 			method: 'PUT',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ token: user.token })
@@ -38,14 +38,14 @@ const ProScreen = ({ navigation }) => {
 
 	useEffect(
 		() => {
-			fetch(`http://10.20.2.115:3000/user/isOnline/${user.token}`)
+			fetch(`http://10.20.2.120:3000/user/isOnline/${user.token}`)
 				.then((response) => response.json())
 				.then((data) => {
 					console.log('isUserOnline : ', data);
 					setIsProOnline(data.isOnline)
 				});
 			const searchOrder = setInterval(() => {
-				fetch(`http://10.20.2.115:3000/user/checkIfOrderRequest/${user.token}`)
+				fetch(`http://10.20.2.120:3000/user/checkIfOrderRequest/${user.token}`)
 					.then(response => response.json())
 					.then(data => {
 
@@ -107,7 +107,7 @@ const ProScreen = ({ navigation }) => {
 	const fetchOrderLocation = async () => {
 		const idOrderAddress = '65e5ec8fa7d7b53b75681b38';
 		try {
-			const response = await fetch(`http://10.20.2.115:3000/address/${idOrderAddress}`);
+			const response = await fetch(`http://10.20.2.120:3000/address/${idOrderAddress}`);
 			const orderLocation = await response.json();
 			// console.log(orderLocation);
 			return orderLocation;
@@ -136,7 +136,7 @@ const ProScreen = ({ navigation }) => {
 	};
 
 	const refuseOrder = () => {
-		fetch(`http://10.20.2.115:3000/user/refuseOrder/${user.token}`, {
+		fetch(`http://10.20.2.120:3000/user/refuseOrder/${user.token}`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ token: user.token })

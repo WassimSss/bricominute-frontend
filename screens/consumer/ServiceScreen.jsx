@@ -44,18 +44,18 @@ export default function ServiceScreen({ navigation }) {
 			// console.log('it is true lol');
 			// Récupérer l'ID de la commande
 			const idOrder = isOnService.idOrder;
-			fetch(`http://10.20.2.115:3000/orders/getIdAddress/${idOrder}`)
+			fetch(`http://10.20.2.120:3000/orders/getIdAddress/${idOrder}`)
 				.then((response) => response.json())
 				.then((addressData) => {
 					// On recup lat et long de l'addresse avec le deuxieme fetch
 					// grace a l'id addresse
 					// console.log('dataGetIdAddress : ', addressData);
-					fetch(`http://10.20.2.115:3000/address/${addressData.IdAddress}`)
+					fetch(`http://10.20.2.120:3000/address/${addressData.IdAddress}`)
 						.then((response) => response.json())
 						.then((position) => {
 							console.log('position : ', position);
 							fetch(
-								`http://10.20.2.115:3000/user/findUserNearbyAndGiveOrder/${position.latitude}/${position.longitude}/${idOrder}`
+								`http://10.20.2.120:3000/user/findUserNearbyAndGiveOrder/${position.latitude}/${position.longitude}/${idOrder}`
 							)
 								.then((response) => response.json())
 								.then((isProFinded) => {
@@ -73,22 +73,22 @@ export default function ServiceScreen({ navigation }) {
 	useEffect(() => {
 		const checkUserOrder = async () => {
 			try {
-				const response = await fetch(`http://10.20.2.115:3000/user/isOnOrder/${user.token}`);
+				const response = await fetch(`http://10.20.2.120:3000/user/isOnOrder/${user.token}`);
 				const isOnService = await response.json();
 				setUserIsOnService(isOnService.result);
 				setIdOrder(isOnService.idOrder);
 
 				if (isOnService.result) {
 					const idOrder = isOnService.idOrder;
-					const addressResponse = await fetch(`http://10.20.2.115:3000/orders/getIdAddress/${idOrder}`);
+					const addressResponse = await fetch(`http://10.20.2.120:3000/orders/getIdAddress/${idOrder}`);
 					const addressData = await addressResponse.json();
-					const positionResponse = await fetch(`http://10.20.2.115:3000/address/${addressData.IdAddress}`);
+					const positionResponse = await fetch(`http://10.20.2.120:3000/address/${addressData.IdAddress}`);
 					const position = await positionResponse.json();
 
 					if (!findPro) {
 						intervalIdRef.current = setInterval(() => {
 							console.log('interval...');
-							fetch(`http://10.20.2.115:3000/user/findUserNearbyAndGiveOrder/${position.latitude}/${position.longitude}/${idOrder}`)
+							fetch(`http://10.20.2.120:3000/user/findUserNearbyAndGiveOrder/${position.latitude}/${position.longitude}/${idOrder}`)
 								.then((response) => response.json())
 								.then((isProFinded) => {
 									console.log('isProFinded : ', isProFinded);
@@ -118,7 +118,7 @@ export default function ServiceScreen({ navigation }) {
 	}, [/*isFocused*/, findPro, consumerService.refresh]);
 
 	const cancelOrder = () => {
-		fetch(`http://10.20.2.115:3000/orders/delete/${idOrder}`,
+		fetch(`http://10.20.2.120:3000/orders/delete/${idOrder}`,
 			{
 				method: 'DELETE',
 				headers: { 'Content-Type': 'application/json' },
