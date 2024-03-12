@@ -76,6 +76,12 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		fontSize: '20px'
 	},
+      title:{
+        fontSize:39,
+        fontWeight:'bold',
+        marginBottom: 20,
+        textAlign: 'center'
+      },
 
 	input2: {
 		borderWidth: 1,
