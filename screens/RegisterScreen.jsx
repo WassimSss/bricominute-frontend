@@ -30,7 +30,7 @@ export default function RegisterScreen({ navigation }) {
             setErrorMessage(''); // Effacer le message d'erreur s'il y en avait un précédemment
     
             if (inscriptionInfo.isPro) {
-                navigation.navigate('inscriptionpro');
+                navigation.navigate('Insciptionpro');
             } else {
                 fetch('http://10.20.2.120:3000/user/signup', {
                     method: 'POST',

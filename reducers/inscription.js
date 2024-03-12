@@ -10,7 +10,7 @@ const initialState = {
     isPro: null, 
     company_name: null, 
     description: null,
-    specialities: null, 
+    specialities: [], 
     kbis: null, 
     insurance_certificate: null,
     rib: null,
@@ -47,13 +47,34 @@ export const userSlice = createSlice({
       state.value.description = action.payload
     },
     setSpecialities : (state, action) => {
-      state.value.specialities = action.payload
+      if(!state.value.specialities.includes(action.payload)){
+        state.value.specialities.push(action.payload)
+      } else {
+        state.value.specialities = state.value.specialities.filter(e => e !== action.payload)
+      }
     },
+    reset : (state, action) => {
+      state.value = { 
+        firstName: null, 
+        lastName: null, 
+        email: null, 
+        password: null,
+        confirmPassword : null,
+        isPro: null, 
+        company_name: null, 
+        description: null,
+        specialities: [], 
+        kbis: null, 
+        insurance_certificate: null,
+        rib: null,
+        setSelectedFiles: null,
+     }
+    }
     },
 
   });
 
 export const { setFirstName, setLastName, setEmail, setPassword, 
   setConfirmPassword, setIsPro, setCompany_name, setDescription,
-  setSpecialities, setKbis, setInsurance_certificate, setRib, setSelectedFiles  } = userSlice.actions;
+  setSpecialities, reset  } = userSlice.actions;
 export default userSlice.reducer;

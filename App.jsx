@@ -7,7 +7,6 @@ import ConnectionScreen from './screens/ConnectionScreen';
 import HomeScreen from './screens/HomeScreen';
 import HomeScreenConsumer from './screens/consumer/HomeScreenConsumer';
 import DocumentScreen from './screens/DocumentScreen';
-import ProinscriptionScreen from "./screens/ProinscriptionScreen";
 import PaiementScreen from "./screens/PaiementScreen";
 import { persistStore, persistReducer } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';

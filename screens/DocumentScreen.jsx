@@ -105,24 +105,6 @@ export default function DocumentScreen({ navigation }) {
     }
     }
 
-  const sendTest = () => {
-    const formData = new FormData();
-
-    formData.append('foo', {
-      uri: 'file:///data/user/0/host.exp.exponent/cache/DocumentPicker/a73a0723-1325-4adf-ae4c-7c2693f01c34.pdf',
-      name: 'photo.jpg',
-      type: 'application/pdf',
-    });
-
-    fetch(`${BACKEND_ADDRESS}/user/test`, {
-      method: 'POST',
-      body: formData,
-    }).then((response) => response.json())
-      .then((data) => {
-        console.log('ok');
-        console.log(data);
-  });
-  }
 
 
 return (
