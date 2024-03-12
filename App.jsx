@@ -81,7 +81,6 @@ export default function App() {
 
   return (
     <Provider store={store}>
-<<<<<<< HEAD
       <PersistGate persistor={persistor}>
         <NavigationContainer>
           <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -93,26 +92,11 @@ export default function App() {
             <Stack.Screen name="Acceuil" component={AcceuilScreen} />
             <Stack.Screen name="Connection" component={ConnectionScreen} />
             <Stack.Screen name="Note" component={NotesScreen} />
-            <Stack.Screen name="inscriptionpro" component={ProinscriptionScreen} />
+            <Stack.Screen name="Insciptionpro" component={InscriptionproScreen} />
             <Stack.Screen name="paiement" component={PaiementScreen} />
 
           </Stack.Navigator>
         </NavigationContainer>
-=======
-      <PersistGate persistor={persistor}> 
-      <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-
-         <Stack.Screen name="Insciptionpro" component={InscriptionproScreen} />
-          <Stack.Screen name="TabNavigator" component={TabNavigator} />
-        <Stack.Screen name="Document" component={DocumentScreen} />
-          <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name="Acceuil" component={AcceuilScreen} />
-          <Stack.Screen name="Connection" component={ConnectionScreen} />
-          <Stack.Screen name="Inscription" component={RegisterScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
->>>>>>> specialites-pro
       </PersistGate>
     </Provider>
   );
