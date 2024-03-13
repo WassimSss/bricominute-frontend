@@ -95,7 +95,7 @@ export default function App() {
             <Stack.Screen name="Note" component={NotesScreen} />
             <Stack.Screen name="Insciptionpro" component={InscriptionproScreen} />
             <Stack.Screen name="paiement" component={PaiementScreen} />
-
+            <Stack.Screen name="Pro" component={ProScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </PersistGate>

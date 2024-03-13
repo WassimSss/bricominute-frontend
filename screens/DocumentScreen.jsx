@@ -3,8 +3,9 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import React, { useEffect, useState } from 'react';
 import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { checkTokenAndRedirect } from '../utils/checkTokenAndRedirect';
+import { AddLoginToStore } from '../reducers/user';
 
 
 export default function DocumentScreen({ navigation }) {
@@ -14,15 +15,21 @@ export default function DocumentScreen({ navigation }) {
 
   const BACKEND_ADDRESS = 'http://10.20.2.120:3000';
   const user = useSelector((state) => state.user.value);
+  const dispatch = useDispatch()
 
+  console.log(useSelector(state => state.inscription.value));
 	// useEffect(() => {
-	// 	checkTokenAndRedirect(navigation, user);
-	// }, []);
+  //   console.log(user);
+	// 	checkTokenAndRedirect(navigation, user, 'Document');
+	// }, [user.token]);
 
 
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [error, setError] = useState('')
 
+  const test = () => {
+    console.log(email, isPro);
+  }
 
   const importDoc = async (index) => {
 
@@ -103,8 +110,12 @@ export default function DocumentScreen({ navigation }) {
         }),
       }).then(response => response.json())
         .then(data => {
-          console.log(data);
-          navigation.navigate('paiement')
+          // console.log('data : ', data);
+          // console.log('reducer');
+          console.log('1 : ',{ email: email, token: data.token, isPro: isPro});
+          console.log('2 : ', email, data.token, isPro);
+          dispatch(AddLoginToStore({email: email, token: data.token, isPro: isPro}))
+          navigation.navigate('Acceuil')
         })
 
         })
@@ -158,7 +169,7 @@ return (
         <Text style={styles.textButton2}>Précedent</Text>
         <FontAwesome name='arrow-left' size={50} color='#b14a73' />
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={test}>
         <Text style={styles.textButton3}>Suivant</Text>
         <FontAwesome name='arrow-right' size={50} color='#b14a73' />
       </TouchableOpacity>

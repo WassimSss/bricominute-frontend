@@ -1,6 +1,6 @@
 export const checkTokenAndRedirect = (navigation, user, pageWantedToGo) => {
 	// console.log('check auth', user);
-	// console.log('pageWantedToGo : ', pageWantedToGo);
+	console.log('pageWantedToGo : ', pageWantedToGo);
 	// Si le user a un token (donc si il est connecté)
 	if (user.token) {
 		// console.log('user a token');
@@ -18,6 +18,8 @@ export const checkTokenAndRedirect = (navigation, user, pageWantedToGo) => {
 			navigation.navigate('Inscription');
 		} else if (pageWantedToGo === 'Connection') {
 			navigation.navigate('Connection');
+		} else if(pageWantedToGo === 'Document'){
+			navigation.navigate('Document')
 		} else {
 			// console.log('redirect to Acceuil');
 			navigation.navigate('Acceuil');

@@ -21,6 +21,7 @@ export default function HomeScreen({ navigation }) {
 			// Si il est pas connecté
 			navigation.navigate('Home');
 		}
+
 	}, [user.token]);
 	// useEffect(() => {
 	// 	checkTokenAndRedirect(navigation, user);

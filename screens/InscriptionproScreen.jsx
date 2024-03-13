@@ -23,6 +23,8 @@ export default function InscriptionproScreen({ navigation }) {
     const inscriptionInfo = useSelector(state => state.inscription.value);
     const [error, setError] = useState('');
     const [allJob, setAllJob] = useState([])
+
+    console.log(inscriptionInfo);
     useEffect(() => {
         fetch('http://10.20.2.120:3000/job')
             .then(response => response.json())

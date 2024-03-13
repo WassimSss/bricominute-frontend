@@ -13,14 +13,18 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 // import { checkTokenAndRedirect } from '../utils/checkTokenAndRedirect';
 import { useEffect, useState } from 'react';
+import { reset } from '../reducers/inscription';
 
 export default function AccueilScreen({ navigation }) {
+
+	const dispatch = useDispatch()
 	const user = useSelector((state) => state.user.value);
 
 	useEffect(() => {
-		console.log(user);
+		console.log('acceuil : ',user);
 		// Si c'est un pro
 		if (user.isPro === true) {
+			console.log('navigato to tro');
 			navigation.navigate('Pro');
 		} else if (user.isPro === false) {
 			// Si c'est un particulier

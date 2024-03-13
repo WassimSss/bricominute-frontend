@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, TouchableWithoutFeedback  } from 'react-native';
 import { RadioButton } from 'react-native-paper';
-import { setFirstName, setLastName, setEmail, setPassword, setConfirmPassword, setIsPro  } from '../reducers/inscription';
+import { setFirstName, setLastName, setEmail, setPassword, setConfirmPassword, setIsPro, reset  } from '../reducers/inscription';
 import { FontAwesome } from '@expo/vector-icons';
+import { AddLoginToStore } from '../reducers/user';
 
 
 
@@ -27,7 +28,7 @@ export default function RegisterScreen({ navigation }) {
     const [errorMessage, setErrorMessage] = useState('');
 
 
-
+console.log(user);
 	useEffect(() => {
 		if (user.isPro === true) {
 			navigation.navigate('Pro');
@@ -48,7 +49,16 @@ export default function RegisterScreen({ navigation }) {
             setErrorMessage(''); // Effacer le message d'erreur s'il y en avait un précédemment
     
             if (inscriptionInfo.isPro) {
-                navigation.navigate('Insciptionpro');
+                fetch(`http://10.20.2.120:3000/user/testAlreadyExist/${inscriptionInfo.email}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    if(data.result){
+                        navigation.navigate('Insciptionpro');
+                    } else {
+                        setErrorMessage(data.error)
+                    }
+                })
             } else {
                 fetch('http://10.20.2.120:3000/user/signup', {
                     method: 'POST',
@@ -62,8 +72,12 @@ export default function RegisterScreen({ navigation }) {
                     }),
                 }).then(response => response.json())
                 .then( (data) => {
+                    console.log('data : ', data);
                     if(data.result){
-                        navigation.navigate('Home');
+                        dispatch(AddLoginToStore({email: inscriptionInfo.email, token: data.token, isPro: inscriptionInfo.isPro}))
+                        // dispatch(reset())
+                        // navigation.navigate('TabNavigator');
+                        console.log(data);
                     } else {
                         setErrorMessage(data.error)
                     }
@@ -120,7 +134,7 @@ export default function RegisterScreen({ navigation }) {
           <TouchableWithoutFeedback onPress={() => setShowConfirmPassword(!showConfirmPassword)}>
             <FontAwesome name={showConfirmPassword ? 'eye' : 'eye-slash'} size={24} color="#b14a73" />
           </TouchableWithoutFeedback>
-       </View>
+            </View>
             </View>
             <Text style={styles.title3}>Je suis :</Text>
 
