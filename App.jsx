@@ -7,6 +7,7 @@ import ConnectionScreen from './screens/ConnectionScreen';
 import HomeScreen from './screens/HomeScreen';
 import HomeScreenConsumer from './screens/consumer/HomeScreenConsumer';
 import DocumentScreen from './screens/DocumentScreen';
+import Messagerie from './screens/Messagerie'
 import { persistStore, persistReducer } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
@@ -80,12 +81,14 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="Pro" component={ProScreen} />
+          <Stack.Screen name="Messagerie" component={Messagerie} />
           <Stack.Screen name="TabNavigator" component={TabNavigator} />
+          <Stack.Screen name="Pro" component={ProScreen} />
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Acceuil" component={AcceuilScreen} />
           <Stack.Screen name="Connection" component={ConnectionScreen} />
           <Stack.Screen name="Inscription" component={RegisterScreen} />
+
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
