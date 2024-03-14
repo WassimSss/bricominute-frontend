@@ -49,7 +49,7 @@ console.log(user);
             setErrorMessage(''); // Effacer le message d'erreur s'il y en avait un précédemment
     
             if (inscriptionInfo.isPro) {
-                fetch(`http://10.20.2.120:3000/user/testAlreadyExist/${inscriptionInfo.email}`)
+                fetch(`http://10.20.2.115:3000/user/testAlreadyExist/${inscriptionInfo.email}`)
                 .then(response => response.json())
                 .then(data => {
                     console.log(data);
@@ -60,7 +60,7 @@ console.log(user);
                     }
                 })
             } else {
-                fetch('http://10.20.2.120:3000/user/signup', {
+                fetch('http://10.20.2.115:3000/user/signup', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({

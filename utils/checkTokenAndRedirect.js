@@ -1,6 +1,5 @@
 export const checkTokenAndRedirect = (navigation, user, pageWantedToGo) => {
 	// console.log('check auth', user);
-	console.log('pageWantedToGo : ', pageWantedToGo);
 	// Si le user a un token (donc si il est connecté)
 	if (user.token) {
 		// console.log('user a token');

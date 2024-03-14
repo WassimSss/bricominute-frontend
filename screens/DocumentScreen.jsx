@@ -13,7 +13,7 @@ export default function DocumentScreen({ navigation }) {
 
   const { firstName, lastName, email, password, isPro, company_name, description, specialities } = useSelector(state => state.inscription.value)
 
-  const BACKEND_ADDRESS = 'http://10.20.2.120:3000';
+  const BACKEND_ADDRESS = 'http://10.20.2.115:3000';
   const user = useSelector((state) => state.user.value);
   const dispatch = useDispatch()
 
@@ -91,7 +91,7 @@ export default function DocumentScreen({ navigation }) {
         body: formData,
       }).then((response) => response.json())
         .then(data => {
-          fetch('http://10.20.2.120:3000/user/signup', {
+          fetch('http://10.20.2.115:3000/user/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

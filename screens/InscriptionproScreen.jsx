@@ -26,7 +26,7 @@ export default function InscriptionproScreen({ navigation }) {
 
     console.log(inscriptionInfo);
     useEffect(() => {
-        fetch('http://10.20.2.120:3000/job')
+        fetch('http://10.20.2.115:3000/job')
             .then(response => response.json())
             .then(data => {
                 console.log(data);

@@ -45,7 +45,7 @@ export default function ServiceStepFour({ navigation }) {
 			IdAddress: '202020'
 		};
 
-		fetch('http://10.20.2.120:3000/orders', {
+		fetch('http://10.20.2.115:3000/orders', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(reformatedData)

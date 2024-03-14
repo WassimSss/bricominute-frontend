@@ -14,7 +14,7 @@ export default function ConnectionScreen({ navigation }) {
 		} else if (user.isPro === false) {
 			// Si c'est un particulier
 			navigation.navigate('TabNavigator');
-		}else {
+		} else {
 			// Si il est pas connecté
 			navigation.navigate('Connection');
 		}
@@ -22,12 +22,12 @@ export default function ConnectionScreen({ navigation }) {
 
 	const dispatch = useDispatch();
 
-	const [ signInEmail, setSignInEmail ] = useState('');
-	const [ signInPassword, setSignInPassword ] = useState('');
+	const [signInEmail, setSignInEmail] = useState('');
+	const [signInPassword, setSignInPassword] = useState('');
 	const handleConnection = () => {
 		console.log('coucou');
 
-		fetch('http://10.20.2.120:3000/user/signin', {
+		fetch('http://10.20.2.115:3000/user/signin', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ email: signInEmail, password: signInPassword })
