@@ -8,6 +8,7 @@ import HomeScreen from './screens/HomeScreen';
 import HomeScreenConsumer from './screens/consumer/HomeScreenConsumer';
 import DocumentScreen from './screens/DocumentScreen';
 import PaiementScreen from "./screens/PaiementScreen";
+import Messagerie from './screens/Messagerie'
 import { persistStore, persistReducer } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
@@ -32,7 +33,7 @@ import ProScreen from "./screens/pro/ProScreen";
 
 
 
-const reducers = combineReducers({ consumerServices, user, inscription});
+const reducers = combineReducers({ consumerServices, user, inscription });
 const persistConfig = { key: 'bricominute', storage: AsyncStorage };
 
 const store = configureStore({
@@ -71,7 +72,7 @@ const TabNavigator = () => {
     })}>
       <Tab.Screen name="Home" component={HomeScreenConsumer} />
       <Tab.Screen name="Service" component={ServiceScreen} />
-      <Tab.Screen name="Message" component={MessageScreen} />
+      <Stack.Screen name="Messagerie" component={Messagerie} />
       <Tab.Screen name="Profil" component={ProfilScreen} />
     </Tab.Navigator>
   );
@@ -86,7 +87,6 @@ export default function App() {
         <NavigationContainer>
           <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name="Acceuil" component={AcceuilScreen} />
-
             <Stack.Screen name="Inscription" component={RegisterScreen} />
             <Stack.Screen name="TabNavigator" component={TabNavigator} />
             <Stack.Screen name="Document" component={DocumentScreen} />
