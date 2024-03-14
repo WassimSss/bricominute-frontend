@@ -57,7 +57,7 @@ const TabNavigator = () => {
           iconName = 'home';
         } else if (route.name === 'Service') {
           iconName = 'plus-square-o';
-        } else if (route.name === 'Message') {
+        } else if (route.name === 'Messagerie') {
           iconName = 'wechat';
         } else if (route.name === 'Profil') {
           iconName = 'user';

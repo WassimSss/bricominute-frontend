@@ -76,10 +76,10 @@ export default function ServiceScreen({ navigation }) {
 				const response = await fetch(`http://10.20.2.115:3000/user/isOnOrder/${user.token}`);
 				const isOnService = await response.json();
 				setUserIsOnService(isOnService.result);
-				setIdOrder(isOnService.order._id);
 
 				console.log('isOnService : ', isOnService);
 				if (isOnService.result) {
+					setIdOrder(isOnService.order._id);
 					const idOrder = isOnService.order._id;
 					console.log('idOrder : ', idOrder);
 					const addressResponse = await fetch(`http://10.20.2.115:3000/orders/getIdAddress/${idOrder}`);

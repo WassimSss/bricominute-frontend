@@ -22,12 +22,12 @@ export default function ChatScreen({ navigation }) {
   const User = useSelector((state) => state.user.value);
   const scrollViewRef = useRef();
 
-  const username = User.username;
+  const username = User.email;
   const [messages, setMessages] = useState([]);
 
   const [messageText, setMessageText] = useState("");
-console.log(messages)
-console.log(messageText)
+  console.log(messages)
+  console.log(messageText)
   useEffect(() => {
     fetch(`${BACKEND_ADDRESS}/users/${username}`, { method: "PUT" });
 
