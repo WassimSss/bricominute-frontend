@@ -1,163 +1,240 @@
 import { StatusBar } from 'expo-status-bar';
+import { useEffect, useState } from 'react';
 import { Dimensions, KeyboardAvoidingView, Platform, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { TouchableOpacity, Button } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useDispatch, useSelector } from 'react-redux';
-
-import React, { useEffect } from 'react';
 import { checkTokenAndRedirect } from '../../utils/checkTokenAndRedirect';
 import { disconnect } from '../../reducers/user';
 
 export default function Profil({ navigation }) {
-	const user = useSelector((state) => state.user.value);
-	const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.value);
+  const [userInfo, setUserInfo] = useState(null)
+  const dispatch = useDispatch();
 
-	const handleDisconnect = () => {
-		dispatch(disconnect());
-	};
+  const handleDisconnect = () => {
+    dispatch(disconnect());
+  };
 
-	useEffect(
-		() => {
-			checkTokenAndRedirect(navigation, user);
-		},
-		[ user.token ]
-	);
-	return (
-		<KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-			<SafeAreaView style={styles.container}>
-				<View>
-					<View style={styles.containerImageAndText}>
-						<View>
-							<View style={styles.cercle} />
-						</View>
+  useEffect(
+    () => {
+      checkTokenAndRedirect(navigation, user);
+    },
+    [user.token]
+  );
+  const [stars, setStars] = useState([])
+  useEffect(() => {
+    const getInfoUser = async () => {
+      const fetchInfoUser = await fetch(`http://10.20.2.115:3000/user/getUser/${user.token}`)
+      const getUserInfo = await fetchInfoUser.json()
+      setUserInfo({ average: getUserInfo.average, firstName: getUserInfo.firstName, lastName: getUserInfo.lastName })
+      console.log('infoUser : ', getUserInfo);
+      const starsArray = [];
+      for (let i = 0; i < 5; i++) {
+        let style = {};
+        if (i < getInfoUser.average) {
+          style = { 'color': '#f1c40f' };
+        }
+        starsArray.push(<FontAwesome key={i} name='star' size={22} style={style} />);
+      }
+      setStars(starsArray);
 
-						<View>
-							<Text style={styles.entete}> ANTOINE TUYEAU </Text>
-							<View style={styles.etoiles}>
-								<FontAwesome style={styles.etoile1} name="star" size={20} />
-								<FontAwesome style={styles.etoile2} name="star" size={20} />
-								<FontAwesome style={styles.etoile3} name="star" size={20} />
-								<FontAwesome style={styles.etoile4} name="star" size={20} />
-								<FontAwesome style={styles.etoile5} name="star" size={20} />
-							</View>
-						</View>
+    }
 
-						<View />
-					</View>
 
-					<Text style={styles.transaction}>Transaction</Text>
-					<Text style={styles.parametres}>Parametres </Text>
-					<Text style={styles.Infos}>Informations personnelles </Text>
-					<Text style={styles.Mail}>Email </Text>
-					<Text style={styles.Not}>Notifications </Text>
-					<Text style={styles.Infos}>Moyens de paiement </Text>
-					<Text style={styles.aide}>Aide </Text>
-					<Text style={styles.légal}>Informations légales </Text>
-					<Text style={styles.centre}>Centre d'aide</Text>
+    getInfoUser()
+  }, []);
 
-					<View style={styles.disconnect}>
-						<TouchableOpacity activeOpacity={0.1} onPress={handleDisconnect}>
-							<Text style={styles.textDisc}>Me deconnecter</Text>
-						</TouchableOpacity>
-					</View>
-				</View>
-			</SafeAreaView>
-		</KeyboardAvoidingView>
-	);
+
+  return (
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+
+      <SafeAreaView style={styles.container}>
+        <View>
+          <View style={styles.containerImageAndText}>
+
+            <View>
+              <View style={styles.cercle} />
+
+            </View>
+
+            <View>
+              <Text style={styles.entete}>{userInfo !== null && userInfo.firstName + ' ' + userInfo.lastName}</Text>
+              <View style={styles.etoiles}>
+                {userInfo !== null && userInfo.average !== null ? stars : <Text>Vous n'avez pas encore été noté</Text>}
+              </View>
+            </View>
+
+            <View>
+            </View>
+          </View>
+          <View style={styles.containerText}>
+            <View>
+              <Text style={styles.Transaction}>Transaction</Text>
+            </View>
+            <View style={styles.PIP}>
+              <Text style={styles.text}>Parametres </Text>
+              <Text style={styles.text}>Informations personnelles </Text>
+            </View>
+            <View style={styles.ENM}>
+              <Text style={styles.text}>Email </Text>
+              <Text style={styles.text}>Notifications </Text>
+              <Text style={styles.text}>Moyens de paiement </Text>
+            </View>
+            <View style={styles.AIC}>
+              <Text style={styles.text}>Aide </Text>
+              <Text style={styles.text}>Informations légales </Text>
+              <Text style={styles.text}>Centre d'aide</Text>
+            </View>
+            <View style={styles.disconnect}>
+              <TouchableOpacity activeOpacity={0.1} onPress={handleDisconnect}>
+                <Text style={styles.textDisc}>Me deconnecter</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </SafeAreaView>
+    </KeyboardAvoidingView>
+  );
+
 }
 
 const { height, width } = Dimensions.get('screen');
 
 const styles = StyleSheet.create({
-	container: {
-		justifyContent: 'space-between',
-		height: '100%',
-		marginTop: '5%',
-		flexDirection: 'row-reverse',
-		margin: 8
-	},
+  container: {
+    justifyContent: 'space-between',
+    height: '100%',
+    marginTop: '9%',
+    flexDirection: 'row-reverse',
+    margin: 8,
+  },
 
-	transaction: {
-		fontSize: 25,
-		borderBottomWidth: 1
-	},
+  containerText: {
+    flex: 1,
+    justifyContent: 'center'
+  },
 
-	parametres: {
-		fontSize: 25
-	},
+  Transaction: {
+    borderTopWidth: 1,
+    fontSize: 25,
+    marginLeft: 20,
+    borderRadius: 80,
 
-	Infos: {
-		fontSize: 25,
-		borderBottomWidth: 1
-	},
 
-	Mail: {
-		fontSize: 25
-	},
+  },
 
-	Not: {
-		fontSize: 25
-	},
+  text: {
+    fontSize: 25,
+    borderRadius: 50,
+    marginTop: 20,
+    marginLeft: 20
+  },
 
-	aide: {
-		fontSize: 25
-	},
 
-	légal: {
-		fontSize: 25
-	},
-	centre: {
-		fontSize: 25
-	},
+  PIP: {
+    borderTopWidth: 1,
+    justifyContent: 'space-between',
+    marginBottom: 20,
+    marginTop: 20,
+  },
+  parametres: {
+    fontSize: 25,
+    marginBottom: 20,
+    marginTop: 20,
+    marginLeft: 20
 
-	disconnect: {
-		color: '#D42C2C',
-		justifyContent: 'flex-end',
-		alignItems: 'flex-end',
-		height: '43%'
-	},
+  },
 
-	textDisc: {
-		color: '#D42C2C'
-	},
+  Infos: {
+    fontSize: 25,
+    borderRadius: 50,
+  },
 
-	containerImageAndText: {
-		width: width - 30,
-		height: 100,
-		backgroundColor: '#786396',
-		flexDirection: 'row',
-		justifyContent: 'center',
-		alignItems: 'center',
-		borderBottomWidth: 1
-	},
+  ENM: {
+    justifyContent: 'space-between',
+    borderTopWidth: 1
+  },
 
-	entete: {
-		backgroundColor: '#fff',
-		fontStyle: 'italic'
-	},
+  Mail: {
+    fontSize: 25,
+  },
 
-	cercle: {
-		width: 50,
-		height: 50,
-		backgroundColor: '#000000',
-		borderRadius: 100
-	},
+  Not: {
+    fontSize: 25,
+  },
 
-	etoiles: {
-		flexDirection: 'row'
-	},
-	etoile1: {
-		color: 'yellow'
-	},
-	etoile2: {
-		color: 'yellow'
-	},
+  aide: {
+    fontSize: 25,
+  },
 
-	etoile3: {
-		color: 'yellow'
-	},
+  légal: {
+    fontSize: 25,
+  },
+  centre: {
+    fontSize: 25,
+  },
 
-	etoile4: {
-		color: 'yellow'
-	}
-});
+  disconnect: {
+    color: '#D42C2C',
+    marginTop: 90,
+    alignItems: 'center',
+    marginLeft: 250
+
+
+  },
+
+  textDisc: {
+    color: '#D42C2C',
+  },
+
+  AIC: {
+
+    justifyContent: 'space-between',
+    borderTopWidth: 1
+
+  },
+
+  containerImageAndText: {
+    width: width - 30,
+    // height: 80,
+    backgroundColor: '#786396',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    borderBottomWidth: 1,
+  },
+
+  entete: {
+    color: '#fff',
+    fontStyle: 'italic',
+    marginRight: 30,
+  },
+
+  cercle: {
+    width: 50,
+    height: 50,
+    backgroundColor: '#fff',
+    borderRadius: 100,
+    marginRight: 10,
+  },
+
+  etoiles: {
+    flexDirection: 'row',
+  },
+  etoile1: {
+    color: 'yellow',
+  },
+  etoile2: {
+    color: 'yellow',
+  },
+
+  etoile3: {
+    color: 'yellow',
+  },
+
+  etoile4: {
+    color: 'yellow',
+  }
+},
+)

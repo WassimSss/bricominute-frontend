@@ -116,11 +116,11 @@ export default function ServiceScreen({ navigation }) {
 
 		return () => {
 			console.log('demonté ! ');
-			// clearInterval(intervalIdRef.current);
+			clearInterval(intervalIdRef.current);
 		};
 
 
-	}, [/*isFocused*/, /*findPro*/, consumerService.refresh]);
+	}, [/*isFocused*/, /*findPro*/, consumerService.refresh, user.token]);
 
 	const cancelOrder = () => {
 		fetch(`http://10.20.2.115:3000/orders/delete/${idOrder}`,

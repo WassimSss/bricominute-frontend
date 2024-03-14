@@ -59,11 +59,12 @@ const ProScreen = ({ navigation }) => {
 					.then(response => response.json())
 					.then(data => {
 
+						console.log('orderData : ', data.price);
 						if (data.proGetOrder) {
 							setOrderNotification(true)
 							setJob(data.order.job)
 							setJobTask(data.order.idTask)
-							setPrice(data.price)
+							setPrice(data.order.price * 0.6)
 						}
 					})
 
@@ -421,7 +422,7 @@ const ProScreen = ({ navigation }) => {
 						{/* {console.log('job : ', job)} */}
 						<Text style={styles.titleOrder}>{job.join('-')}</Text>
 						<Text style={styles.textOrder}>{jobTask.join(', ')}</Text>
-						<Text style={styles.priceOrder}>{price}</Text>
+						<Text style={styles.priceOrder}>{price}€</Text>
 					</View>
 
 					<View style={styles.orderButtons}>

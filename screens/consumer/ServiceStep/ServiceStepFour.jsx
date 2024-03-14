@@ -184,8 +184,12 @@ const styles = StyleSheet.create({
 		marginTop: 100
 	},
 	li: {
+		backgroundColor: 'red',
 		flexDirection: 'row',
-		justifyContent: 'space-around'
+		justifyContent: 'space-betweenn',
+		margin: 10,
+		width: 300
+
 	},
 	liText: {
 		fontSize: 20,

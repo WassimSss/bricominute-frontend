@@ -22,8 +22,8 @@ export default function ConnectionScreen({ navigation }) {
 
 	const dispatch = useDispatch();
 
-	const [signInEmail, setSignInEmail] = useState('');
-	const [signInPassword, setSignInPassword] = useState('');
+	const [signInEmail, setSignInEmail] = useState('Particulier@gmail.com');
+	const [signInPassword, setSignInPassword] = useState('Particulier');
 	const handleConnection = () => {
 		console.log('coucou');
 
