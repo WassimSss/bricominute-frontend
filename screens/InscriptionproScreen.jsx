@@ -26,7 +26,7 @@ export default function InscriptionproScreen({ navigation }) {
 
     console.log(inscriptionInfo);
     useEffect(() => {
-        fetch('http://10.20.2.115:3000/job')
+        fetch(`http://10.20.2.115:3000/job`)
             .then(response => response.json())
             .then(data => {
                 console.log(data);
@@ -55,11 +55,11 @@ export default function InscriptionproScreen({ navigation }) {
     // console.log(allJob);
     const allJobBox = allJob.map(job => {
         return <View style={styles.checkboxAlign}>
-                <Checkbox style={styles.CheckBox} value={inscriptionInfo.specialities.includes(job)}
-                    onValueChange={() => dispatch(setSpecialities(job))} />
-                <Text style={styles.paragraph}>{job}</Text>
-            </View>
-        
+            <Checkbox style={styles.CheckBox} value={inscriptionInfo.specialities.includes(job)}
+                onValueChange={() => dispatch(setSpecialities(job))} />
+            <Text style={styles.paragraph}>{job}</Text>
+        </View>
+
     })
 
 

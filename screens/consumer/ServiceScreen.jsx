@@ -11,6 +11,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import { checkTokenAndRedirect } from '../../utils/checkTokenAndRedirect';
 import { handleRefresh, resetData } from '../../reducers/consumerServices';
+import NotesScreen from '../consumer/NotesScreen'
 // import { useIsFocused } from '@react-navigation/native';
 
 
@@ -22,21 +23,75 @@ export default function ServiceScreen({ navigation }) {
 	const [findPro, setFindPro] = useState(false);
 	const [requestPro, setRequestPro] = useState(false);
 	const [idOrder, setIdOrder] = useState('');
-	const idUser = '65e6e7249333d0bcd3044e5a';
+	// const idUser = '65e6e7249333d0bcd3044e5a';
 	const dispatch = useDispatch();
 	const intervalIdRef = useRef(null);
+	const [proInfo, setProInfo] = useState(null)
+	const [orderAddress, setOrderAddress] = useState(null)
+	const [orderFinished, setOrderFinished] = useState(false)
 
 	useEffect(() => {
 		checkTokenAndRedirect(navigation, user);
+
+		const isUserOnOrderShowMap = async () => {
+			try {
+				const response = await fetch(`http://10.20.2.115:3000/user/isOnOrder/${user.token}`);
+				const isOnService = await response.json();
+				setUserIsOnService(isOnService.result);
+
+				// console.log('isOnService : ', isOnService);
+				if (isOnService.result) {
+					setIdOrder(isOnService.order._id);
+					const idOrder = isOnService.order._id;
+					// console.log('idOrder : ', idOrder);
+					const addressResponse = await fetch(`http://10.20.2.115:3000/orders/getIdAddress/${idOrder}`);
+					const addressData = await addressResponse.json();
+					// console.log('addressData : ', addressData);
+					const positionResponse = await fetch(`http://10.20.2.115:3000/address/${addressData.IdAddress}`);
+					const position = await positionResponse.json();
+					// console.log('position : ', position);
+
+
+					if (!findPro) {
+						// console.log('interval...');
+						fetch(`http://10.20.2.115:3000/user/findUserNearbyAndGiveOrder/${position.latitude}/${position.longitude}/${idOrder}`)
+							.then((response) => response.json())
+							.then((isProFinded) => {
+								// console.log('isProFinded : ', isProFinded);
+								if (isProFinded.result) {
+									clearInterval(intervalIdRef.current);
+									dispatch(handleRefresh())
+									setRequestPro(isProFinded.result);
+
+									fetch(`http://10.20.2.115:3000/user/checkIfProAcceptOrder/${user.token}`)
+										.then(response => response.json())
+										.then(isProAcceptOrder => {
+											// console.log('check if pro accept order');
+											if (isProAcceptOrder.result) {
+												setFindPro(isProAcceptOrder.result)
+												setProInfo(isProAcceptOrder.proInfo)
+											}
+										})
+								}
+							});
+						// METTRE TOUTE LES 5 SECONDES
+					}
+
+				}
+			} catch (error) {
+				console.error('Error while checking user order:', error);
+			}
+		}
+
+		isUserOnOrderShowMap()
+
 	}, []);
 
 	const consumerService = useSelector((state) => state.consumerServices.value);
 
-
-
 	const findUser = (isOnService, interval) => {
-		console.log('isOnServiceOfTheFunction : ', isOnService)
-		console.log('findPro : ', findPro)
+		// console.log('isOnServiceOfTheFunction : ', isOnService)
+		// console.log('findPro : ', findPro)
 
 
 
@@ -53,7 +108,7 @@ export default function ServiceScreen({ navigation }) {
 					fetch(`http://10.20.2.115:3000/address/${addressData.IdAddress}`)
 						.then((response) => response.json())
 						.then((position) => {
-							console.log('position : ', position);
+							// console.log('position : ', position);
 							fetch(
 								`http://10.20.2.115:3000/user/findUserNearbyAndGiveOrder/${position.latitude}/${position.longitude}/${idOrder}`
 							)
@@ -77,33 +132,46 @@ export default function ServiceScreen({ navigation }) {
 				const isOnService = await response.json();
 				setUserIsOnService(isOnService.result);
 
-				console.log('isOnService : ', isOnService);
+				// console.log('isOnService : ', isOnService);
 				if (isOnService.result) {
 					setIdOrder(isOnService.order._id);
 					const idOrder = isOnService.order._id;
-					console.log('idOrder : ', idOrder);
+					// console.log('idOrder : ', idOrder);
 					const addressResponse = await fetch(`http://10.20.2.115:3000/orders/getIdAddress/${idOrder}`);
 					const addressData = await addressResponse.json();
-					console.log('addressData : ', addressData);
+					// console.log('addressData : ', addressData);
 					const positionResponse = await fetch(`http://10.20.2.115:3000/address/${addressData.IdAddress}`);
 					const position = await positionResponse.json();
-					console.log('position : ', position);
+
+					setOrderAddress(position)
+					// console.log('position : ', position);
 
 
 					if (!findPro) {
 						intervalIdRef.current = setInterval(() => {
-							console.log('interval...');
+							// console.log('interval...');
 							fetch(`http://10.20.2.115:3000/user/findUserNearbyAndGiveOrder/${position.latitude}/${position.longitude}/${idOrder}`)
 								.then((response) => response.json())
 								.then((isProFinded) => {
-									console.log('isProFinded : ', isProFinded);
+									// console.log('isProFinded : ', isProFinded);
 									if (isProFinded.result) {
 										clearInterval(intervalIdRef.current);
 										dispatch(handleRefresh())
 										setRequestPro(isProFinded.result);
+
+										fetch(`http://10.20.2.115:3000/user/checkIfProAcceptOrder/${user.token}`)
+											.then(response => response.json())
+											.then(isProAcceptOrder => {
+												// console.log('check if pro accept order');
+												if (isProAcceptOrder.result) {
+													setFindPro(isProAcceptOrder.result)
+													setProInfo(isProAcceptOrder.proInfo)
+												}
+											})
 									}
 								});
-						}, 2000);
+							// METTRE TOUTE LES 5 SECONDES
+						}, 5000);
 					}
 
 				}
@@ -120,7 +188,7 @@ export default function ServiceScreen({ navigation }) {
 		};
 
 
-	}, [/*isFocused*/, /*findPro*/, consumerService.refresh, user.token]);
+	}, [/*isFocused*/, findPro, consumerService.refresh, user.token]);
 
 	const cancelOrder = () => {
 		fetch(`http://10.20.2.115:3000/orders/delete/${idOrder}`,
@@ -131,22 +199,44 @@ export default function ServiceScreen({ navigation }) {
 			})
 			.then(response => response.json())
 			.then(data => {
-				console.log('delete : ', data);
+				// console.log('delete : ', data);
 				dispatch(resetData())
 				clearInterval(intervalIdRef.current);
 			})
 
 	}
 
+	const handleFinishedOrder = () => {
+		setOrderFinished(true)
+	}
+
+	const resetFindUser = () => {
+		clearInterval(intervalIdRef.current);
+
+	}
+
+	const resetAll = () => {
+		setUserIsOnService(false)
+		setFindPro(false)
+		setRequestPro(false)
+		setIdOrder('')
+		resetFindUser()
+		setProInfo(null)
+		setOrderAddress(null)
+		setOrderFinished(null)
+		dispatch(resetData())
+	}
 	// const findPro = false
-	if (userIsOnService) {
+	if (orderFinished) {
+		return <NotesScreen proInfo={proInfo} navigation={navigation} resetAll={resetAll} />;
+	} else if (userIsOnService) {
 		// CREER UN NOUVEAU CHAMP DANS LE SCHEMA QUI SERA REQUESTIDPRO
 		// SI REQUEST ID PRO CA VEUT DIRE QU ON A ENVOUYE UNE REQUETE A UN PRO
 		// === ON ATTENDS QU IL ACCEPTE OU REFUSE
 		// SI IL ACCEPTE ON AFFICHE LA MAP, SINON ON RELANCE LA RECHERCHE
 		if (requestPro) {
 			if (findPro) {
-
+				return <ServiceProInComming proInfo={proInfo} navigation={navigation} orderAddress={orderAddress} idOrder={idOrder} handleFinishedOrder={handleFinishedOrder} />;
 			} else {
 				return <ServiceSearchPro navigation={navigation} cancelOrder={cancelOrder} message="Un pro a été trouvé, il doit accepté la commande" />;
 			}

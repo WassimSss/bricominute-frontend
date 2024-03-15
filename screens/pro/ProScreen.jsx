@@ -8,6 +8,7 @@ import * as Location from 'expo-location';
 import { checkTokenAndRedirect } from '../../utils/checkTokenAndRedirect';
 import { useDispatch, useSelector } from 'react-redux';
 import { disconnect } from '../../reducers/user';
+import Messagerie from '../Messagerie'
 
 const ProScreen = ({ navigation }) => {
 	const user = useSelector((state) => state.user.value);
@@ -23,6 +24,9 @@ const ProScreen = ({ navigation }) => {
 	const [orderLocation, setOrderLocation] = useState(null)
 	const [userInfo, setUserInfo] = useState(null)
 	const [refreshDataLocation, setRefreshDataLocation] = useState({ accessToLocation: false, refresh: false })
+	const [proInfo, setProInfo] = useState(null)
+	const [distanceFromTheServiceInKm, setDistanceFromTheServiceInKm] = useState(null);
+	const [timeFromProToService, setTimeFromProToService] = useState(null);
 
 
 	const handleDisconnect = () => {
@@ -50,7 +54,7 @@ const ProScreen = ({ navigation }) => {
 			console.log('yoo');
 			fetch(`http://10.20.2.115:3000/user/isOnline/${user.token}`)
 				.then((response) => response.json())
-				.then((data) => {
+				.then(data => {
 					console.log('datatest 2 : ', data);
 					setIsProOnline(data.isOnline)
 				});
@@ -100,6 +104,13 @@ const ProScreen = ({ navigation }) => {
 	}, [orderNotification, orderNotificationTime])
 
 	useEffect(() => {
+		const getProInfo = async () => {
+			const fetchInfoPro = await fetch(`http://10.20.2.115:3000/user/getUser/${user.token}`)
+			const infoPro = await fetchInfoPro.json();
+			setProInfo({ average: infoPro.average, firstName: infoPro.firstName, lastName: infoPro.lastName, money: infoPro.money })
+			console.log('infoPro : ', infoPro);
+
+		}
 		const getIfIsOnOrder = async () => {
 			const responseIsOnOrder = await fetch(`http://10.20.2.115:3000/user/isOnOrder/${user.token}`)
 			const isOnOrderData = await responseIsOnOrder.json();
@@ -121,16 +132,19 @@ const ProScreen = ({ navigation }) => {
 			}
 
 			// Recup Nom prenom de l'order
+			console.log('isOnOrderData : ', isOnOrderData.order.idUser);
 			console.log(' isOnOrderData : , ', isOnOrderData.order.idUser);
-			const responseUser = await fetch(`http://10.20.2.115:3000/user/getUser/${isOnOrderData.order.idUser}`)
+			const responseUser = await fetch(`http://10.20.2.115:3000/user/getUserById/${isOnOrderData.order.idUser}`)
 			const userData = await responseUser.json();
+			console.log('userData : ', userData);
 			if (userData.result) {
 				setUserInfo({ firstName: userData.firstName, lastName: userData.lastName })
 			}
 
-			console.log('isOnOrder', data);
+			// console.log('isOnOrder', data);
 		}
 		// Peut être faire un fetch pour voir si il est onOrder au chargement de la page
+		getProInfo()
 		getIfIsOnOrder()
 	}, [onOrder])
 
@@ -140,9 +154,6 @@ const ProScreen = ({ navigation }) => {
 		latitudeDelta: 0.01,
 		longitudeDelta: 0.01
 	});
-
-	const [distanceFromTheServiceInKm, setDistanceFromTheServiceInKm] = useState(null);
-	const [timeFromProToService, setTimeFromProToService] = useState(null);
 
 	const fetchOrderLocation = async () => {
 		const idOrderAddress = '65e5ec8fa7d7b53b75681b38';
@@ -160,20 +171,20 @@ const ProScreen = ({ navigation }) => {
 		}
 	};
 
-	// const distanceBetweenTwoPoint = async () => {
-	// 	const orderLocation = await fetchOrderLocation();
-	// 	console.log(orderLocation.latitude !== null);
-	// 	if (orderLocation.latitude !== null) {
-	// 		const distanceInMeters = geolib.getDistance(orderLocation, proLocation);
-	// 		const distanceInKilometers = geolib.convertDistance(distanceInMeters, 'km');
-	// 		setDistanceFromTheServiceInKm(distanceInKilometers);
+	const distanceBetweenTwoPoint = async () => {
+		const orderLocation = await fetchOrderLocation();
+		console.log(orderLocation.latitude !== null);
+		if (orderLocation.latitude !== null) {
+			const distanceInMeters = geolib.getDistance(orderLocation, proLocation);
+			const distanceInKilometers = geolib.convertDistance(distanceInMeters, 'km');
+			setDistanceFromTheServiceInKm(distanceInKilometers);
 
-	// 		const vitesse = 40; //kilometre/h
-	// 		const timeInMinute = Math.floor(distanceInKilometers / vitesse * 60);
-	// 		// console.log('timeInMinute :', timeInMinute);
-	// 		setTimeFromProToService(timeInMinute);
-	// 	}
-	// };
+			const vitesse = 40; //kilometre/h
+			const timeInMinute = Math.floor(distanceInKilometers / vitesse * 60);
+			// console.log('timeInMinute :', timeInMinute);
+			setTimeFromProToService(timeInMinute);
+		}
+	};
 
 	const refuseOrder = () => {
 		fetch(`http://10.20.2.115:3000/user/refuseOrder/${user.token}`, {
@@ -212,6 +223,7 @@ const ProScreen = ({ navigation }) => {
 			.then(response => response.json())
 			.then(orderData => {
 				console.log(orderData);
+				setOnOrder(false)
 			})
 	}
 
@@ -288,7 +300,7 @@ const ProScreen = ({ navigation }) => {
 			<View style={styles.containerMoneyInfo}>
 				<TouchableOpacity style={styles.moneyInfo}>
 					<Text style={styles.text}>
-						0.00<Text style={{ color: '#786396' }}>€</Text>
+						{proInfo !== null ? proInfo.money : '_.__'}<Text style={{ color: '#786396' }}>€</Text>
 					</Text>
 				</TouchableOpacity>
 			</View>
@@ -378,6 +390,13 @@ const ProScreen = ({ navigation }) => {
 							<FontAwesome name="arrow-left" size={20} color="#000000" />
 						</TouchableOpacity>
 					</View>
+
+					<View>
+						<TouchableOpacity style={styles.item}>
+							<Text style={{ ...styles.textItem, color: 'red' }}>Deconnexion</Text>
+							<FontAwesome name="arrow-left" size={20} color="#000000" />
+						</TouchableOpacity>
+					</View>
 				</View>
 			</View>
 
@@ -388,10 +407,17 @@ const ProScreen = ({ navigation }) => {
 						<Text style={styles.textOrder}>{orderLocation !== null && orderLocation.fullAddress}</Text>
 					</View>
 					<View>
-						<Text style={styles.textOrder}>MSG</Text>
-						<TouchableOpacity onPress={() => finishedOrder()}>
-							<Text style={{ color: 'purple' }}>END</Text>
+						<TouchableOpacity onPress={() => navigation.navigate('Messagerie')}>
+							<Text>
+								<FontAwesome name='wechat' size={20} color='#786396' />
+							</Text>
 						</TouchableOpacity>
+						{distanceFromTheServiceInKm <= 0.2 && <TouchableOpacity onPress={() => finishedOrder()}>
+							<Text style={{ color: 'purple' }}>
+								<FontAwesome name='check' size={20} color='#786396' />
+							</Text>
+						</TouchableOpacity>}
+
 					</View>
 					<View>
 
@@ -462,6 +488,7 @@ const ProScreen = ({ navigation }) => {
 };
 
 const { width, height } = Dimensions.get('screen');
+
 const styles = StyleSheet.create({
 	container: {
 		flex: 1

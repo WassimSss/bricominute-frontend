@@ -60,7 +60,7 @@ console.log(user);
                     }
                 })
             } else {
-                fetch('http://10.20.2.115:3000/user/signup', {
+                fetch(`http://10.20.2.115:3000/user/signup`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({

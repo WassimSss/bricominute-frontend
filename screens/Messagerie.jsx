@@ -16,7 +16,7 @@ import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 
 const pusher = new Pusher("7e4577e3949d26fcc586", { cluster: "eu" });
-const BACKEND_ADDRESS = "http://10.20.2.115:3000";
+const BACKEND_ADDRESS = `http://10.20.2.115:3000`;
 
 export default function ChatScreen({ navigation }) {
   const User = useSelector((state) => state.user.value);

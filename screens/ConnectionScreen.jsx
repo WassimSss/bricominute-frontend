@@ -2,6 +2,7 @@ import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-nativ
 import { useEffect, useState } from 'react';
 import { AddLoginToStore } from '../reducers/user';
 import { useDispatch, useSelector } from 'react-redux';
+import { LinearGradient } from 'expo-linear-gradient';
 
 export default function ConnectionScreen({ navigation }) {
 	const user = useSelector((state) => state.user.value);
@@ -25,9 +26,9 @@ export default function ConnectionScreen({ navigation }) {
 	const [signInEmail, setSignInEmail] = useState('Particulier@gmail.com');
 	const [signInPassword, setSignInPassword] = useState('Particulier');
 	const handleConnection = () => {
-		console.log('coucou');
+		console.log(`http://10.20.2.115:3000/user/signin`);
 
-		fetch('http://10.20.2.115:3000/user/signin', {
+		fetch(`http://10.20.2.115:3000/user/signin`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ email: signInEmail, password: signInPassword })
@@ -70,9 +71,18 @@ export default function ConnectionScreen({ navigation }) {
 			</View>
 
 			<View style={styles.blockBas}>
-				<TouchableOpacity style={styles.button1} onPress={() => handleConnection()}>
-					<Text style={styles.button}>CONNECTION</Text>
-				</TouchableOpacity>
+				<LinearGradient
+					// Button Linear Gradient
+					colors={['#407CB8', '#B14A73']}
+					style={styles.button}
+					start={{ x: 0, y: 0 }}
+					end={{ x: 1, y: 1 }}
+				>
+					<TouchableOpacity style={styles.button1} onPress={() => handleConnection()}>
+						<Text style={styles.button}>CONNECTION</Text>
+					</TouchableOpacity>
+				</LinearGradient>
+
 
 				<Text>Vous n'avez pas de compte ?</Text>
 				<TouchableOpacity style={styles.button2}>

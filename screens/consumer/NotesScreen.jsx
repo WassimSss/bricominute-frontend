@@ -10,17 +10,19 @@ import { useSelector } from 'react-redux';
 
 
 
-export default function NotesScreen({ navigation }) {
+export default function NotesScreen({ navigation, proInfo, resetAll }) {
 
     const user = useSelector(state => state.user.value)
     const [text, setText] = useState('Useless Text');
     const [personalNote, setPersonalNote] = useState(0);
     const [error, setError] = useState('')
-    useEffect(() => {
-        checkTokenAndRedirect(navigation, user);
-    }, []);
+    // useEffect(() => {
+    //     checkTokenAndRedirect(navigation, user);
+    // }, []);
 
     // Personal note
+
+    console.log(proInfo);
     const personalStars = [];
     for (let i = 0; i < 5; i++) {
         let style = { 'cursor': 'pointer' };
@@ -32,7 +34,7 @@ export default function NotesScreen({ navigation }) {
 
     const confirmPaiement = () => {
         if (personalNote !== 0) {
-            fetch('http://10.20.2.170:3000/notation', {
+            fetch('http://10.20.2.115:3000/notation', {
                 method: 'POST',
                 headers: { 'content-type': 'application/json' },
                 body: JSON.stringify({
@@ -43,7 +45,9 @@ export default function NotesScreen({ navigation }) {
             }
             ).then(response => response.json())
                 .then(data => {
-                    console.log(data);
+                    console.log('allo');
+                    resetAll();
+                    navigation.navigate('Home')
                 })
 
             // navigation.navigate('Home')
@@ -63,7 +67,8 @@ export default function NotesScreen({ navigation }) {
                 <View style={styles.cercle} />
             </View>
             <View>
-                <Text style={styles.nom}>PIERRE CHARLES</Text>
+                <Text style={styles.nom}>{proInfo !== null && proInfo.firstName}</Text>
+                <Text style={styles.nom}>{proInfo != null && proInfo.company_name}</Text>
             </View>
 
             <View style={styles.etoiles}>
