@@ -4,7 +4,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { addJobToSore, deleteJobToStore, nextStep, previousStep } from '../../../reducers/consumerServices';
 import React, { useEffect, useState } from 'react';
 
-import {checkTokenAndRedirect} from '../../../utils/checkTokenAndRedirect';
+import { checkTokenAndRedirect } from '../../../utils/checkTokenAndRedirect';
 
 export default function ServiceStepOne({ navigation }) {
 	const user = useSelector((state) => state.user.value);
@@ -14,7 +14,7 @@ export default function ServiceStepOne({ navigation }) {
 	}, []);
 	const consumerService = useSelector((state) => state.consumerServices.value);
 	const dispatch = useDispatch();
-	const [ allJob, setAllJob ] = useState([]);
+	const [allJob, setAllJob] = useState([]);
 
 	const handlePreviousStep = (can) => {
 		if (can) {
@@ -67,7 +67,7 @@ export default function ServiceStepOne({ navigation }) {
 	return (
 		<View style={styles.container}>
 			<Text style={styles.title}>Type de service</Text>
-			<Text>Etape {consumerService.step}/4</Text>
+			<Text>Etape {consumerService.step}/5</Text>
 			{/* <View style={styles.duo}>
 
         <TouchableOpacity style={[styles.cardJob, consumerService.jobs.includes('Electricite') && styles.selectedCardJob]} onPress={() => handleAddJob('Electricite')}>
@@ -113,7 +113,7 @@ export default function ServiceStepOne({ navigation }) {
 
 			<View style={styles.allBtn}>
 				<TouchableOpacity style={styles.arrowBtnContainer} onPress={() => handlePreviousStep(false)}>
-					<Text style={[ styles.activeColor, consumerService.step === 1 && styles.cantGoStyle ]}>
+					<Text style={[styles.activeColor, consumerService.step === 1 && styles.cantGoStyle]}>
 						Précédent
 					</Text>
 					<FontAwesome
@@ -125,10 +125,10 @@ export default function ServiceStepOne({ navigation }) {
 				</TouchableOpacity>
 
 				<TouchableOpacity
-					style={[ styles.arrowBtnContainer, styles.cantGoStyle ]}
+					style={[styles.arrowBtnContainer, styles.cantGoStyle]}
 					onPress={() => handleNextStep(consumerService.jobs.length > 0)}
 				>
-					<Text style={[ styles.cantGoStyle, consumerService.jobs.length > 0 && styles.activeColor ]}>
+					<Text style={[styles.cantGoStyle, consumerService.jobs.length > 0 && styles.activeColor]}>
 						Suivant
 					</Text>
 					<FontAwesome
@@ -150,9 +150,10 @@ const styles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: '#ffffff',
 		alignItems: 'center',
-		justifyContent: 'center'
+		justifyContent: 'space-around'
 	},
 	title: {
+		marginTop: 50,
 		fontSize: 30,
 		fontWeight: 'bold'
 	},
@@ -197,7 +198,8 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		width: width - 60,
 		justifyContent: 'space-between',
-		marginTop: 30
+		marginBottom: 30
+
 	},
 	cantGoStyle: {
 		color: '#979797'

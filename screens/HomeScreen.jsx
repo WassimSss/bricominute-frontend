@@ -73,14 +73,14 @@ const styles = StyleSheet.create({
 		justifyContent: 'center'
 	}
 
-	/*textButton: {
-        fontFamily: "Futura",
-        height: '30',
-        fontWeight: "600",
-        fontSize: '24',
-       textAlign: "right",
+	// textButton: {
+	// 	fontFamily: "Futura",
+	// 	height: '30',
+	// 	fontWeight: "600",
+	// 	fontSize: '24',
+	// 	textAlign: "right",
 
-}
+	// }
 
-*/
+
 });

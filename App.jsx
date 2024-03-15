@@ -17,9 +17,8 @@ import inscription from './reducers/inscription';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import InscriptionproScreen from './screens/InscriptionproScreen';
-
-
-
+import LegalInformationPage from './screens/consumer/LegalInformationPage'
+import TransactionPage from './screens/consumer/TransactionPage'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import ProfilScreen from './screens/consumer/ProfilScreen';
 import MessageScreen from './screens/consumer/MessageScreen';
@@ -30,7 +29,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import consumerServices from './reducers/consumerServices'
 import { Provider } from 'react-redux';
 import ProScreen from "./screens/pro/ProScreen";
-
+import HelpCenterPage from './screens/consumer/HelpCenterPage'
 
 
 const reducers = combineReducers({ consumerServices, user, inscription });
@@ -97,6 +96,9 @@ export default function App() {
             <Stack.Screen name="paiement" component={PaiementScreen} />
             <Stack.Screen name="Pro" component={ProScreen} />
             <Stack.Screen name="Messagerie" component={Messagerie} />
+            <Tab.Screen name="LegalInformation" component={LegalInformationPage} />
+            <Tab.Screen name="HelpCenter" component={HelpCenterPage} />
+            <Tab.Screen name="Transaction" component={TransactionPage} />
           </Stack.Navigator>
         </NavigationContainer>
       </PersistGate>

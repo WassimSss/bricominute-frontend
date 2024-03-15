@@ -10,7 +10,7 @@ import {
 	previousStep
 } from '../../../reducers/consumerServices';
 import React, { useEffect, useState } from 'react';
-import {checkTokenAndRedirect} from '../../../utils/checkTokenAndRedirect';
+import { checkTokenAndRedirect } from '../../../utils/checkTokenAndRedirect';
 
 export default function ServiceStepTwo({ navigation }) {
 	const user = useSelector((state) => state.user.value);
@@ -20,7 +20,7 @@ export default function ServiceStepTwo({ navigation }) {
 	}, []);
 	const consumerService = useSelector((state) => state.consumerServices.value);
 	const dispatch = useDispatch();
-	const [ allJobTasksState, setAllJobTasksState ] = useState([]);
+	const [allJobTasksState, setAllJobTasksState] = useState([]);
 
 	const handlePreviousStep = (can) => {
 		if (can) {
@@ -85,7 +85,7 @@ export default function ServiceStepTwo({ navigation }) {
 			{/* FAIRE UN FETCH POUR RECUPERER TOUT LES JOBTASK DU/DES METIERS RENTRER DANS L ETAPE PRECEDENTES PAR LEURS NOMS JOB*/}
 
 			<Text style={styles.title}>Type de travaux</Text>
-			<Text>Etape {consumerService.step}/4</Text>
+			<Text>Etape {consumerService.step}/5</Text>
 
 			<ScrollView>
 				<View style={styles.allJob}>{allJobTasksStateRender}</View>
@@ -93,7 +93,7 @@ export default function ServiceStepTwo({ navigation }) {
 
 			<View style={styles.allBtn}>
 				<TouchableOpacity style={styles.arrowBtnContainer} onPress={() => handlePreviousStep(true)}>
-					<Text style={[ styles.activeColor, consumerService.step === 1 && styles.cantGoStyle ]}>
+					<Text style={[styles.activeColor, consumerService.step === 1 && styles.cantGoStyle]}>
 						Précédent
 					</Text>
 					<FontAwesome
@@ -105,10 +105,10 @@ export default function ServiceStepTwo({ navigation }) {
 				</TouchableOpacity>
 
 				<TouchableOpacity
-					style={[ styles.arrowBtnContainer, styles.cantGoStyle ]}
+					style={[styles.arrowBtnContainer, styles.cantGoStyle]}
 					onPress={() => handleNextStep(consumerService.jobTasks.length > 0)}
 				>
-					<Text style={[ styles.cantGoStyle, consumerService.jobTasks.length > 0 && styles.activeColor ]}>
+					<Text style={[styles.cantGoStyle, consumerService.jobTasks.length > 0 && styles.activeColor]}>
 						Suivant
 					</Text>
 					<FontAwesome
@@ -130,7 +130,8 @@ const styles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: '#ffffff',
 		alignItems: 'center',
-		justifyContent: 'center'
+		justifyContent: 'space-around',
+		marginTop: 50,
 	},
 	title: {
 		fontSize: 30,
@@ -177,7 +178,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		width: width - 60,
 		justifyContent: 'space-between',
-		marginTop: 30
+		marginBottom: 30
 	},
 	cantGoStyle: {
 		color: '#979797'

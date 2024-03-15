@@ -6,6 +6,10 @@ const initialState = {
     jobs: [],
     jobTasks: [],
     date: null,
+    streetNumber: '',
+    address: '',
+    zipCode: '',
+    city: '',
     status: false,
     price: 0,
     idAddress: null,
@@ -32,6 +36,18 @@ export const consumerServicesSlice = createSlice({
     },
     setDate: (state, action) => {
       state.value.date = action.payload
+    },
+    setStreetNumber: (state, action) => {
+      state.value.streetNumber = action.payload
+    },
+    setAddress: (state, action) => {
+      state.value.address = action.payload
+    },
+    setZipCode: (state, action) => {
+      state.value.zipCode = action.payload
+    },
+    setCity: (state, action) => {
+      state.value.city = action.payload
     },
     goToStep: (state, action) => {
       state.value.step = action.payload;
@@ -64,5 +80,5 @@ export const consumerServicesSlice = createSlice({
   },
 });
 
-export const { addJobToSore, deleteJobToStore, addJobTaskToSore, deleteJobTaskToStore, setDate, goToStep, previousStep, nextStep, handleRefresh, handleRefreshToActionPayload, resetData } = consumerServicesSlice.actions;
+export const { addJobToSore, deleteJobToStore, addJobTaskToSore, deleteJobTaskToStore, setDate, goToStep, previousStep, nextStep, handleRefresh, handleRefreshToActionPayload, resetData, setStreetNumber, setAddress, setZipCode, setCity } = consumerServicesSlice.actions;
 export default consumerServicesSlice.reducer;

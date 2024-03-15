@@ -18,10 +18,10 @@ export default function DocumentScreen({ navigation }) {
   const dispatch = useDispatch()
 
   console.log(useSelector(state => state.inscription.value));
-	// useEffect(() => {
+  // useEffect(() => {
   //   console.log(user);
-	// 	checkTokenAndRedirect(navigation, user, 'Document');
-	// }, [user.token]);
+  // 	checkTokenAndRedirect(navigation, user, 'Document');
+  // }, [user.token]);
 
 
   const [selectedFiles, setSelectedFiles] = useState([]);
@@ -66,7 +66,7 @@ export default function DocumentScreen({ navigation }) {
 
   const sendDoc = () => {
 
-    if(selectedFiles.length < 3){
+    if (selectedFiles.length < 3) {
       setError('Tout les champs ne sont pas remplis')
     } else {
       setError('')
@@ -81,102 +81,102 @@ export default function DocumentScreen({ navigation }) {
             name: file.name,
             type: file.type,
           });
-  
+
         }
       });
-  
-  
+
+
       fetch(`${BACKEND_ADDRESS}/user/upload`, {
         method: 'POST',
         body: formData,
       }).then((response) => response.json())
         .then(data => {
           fetch(`http://10.20.2.115:3000/user/signup`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          firstName: firstName,
-          lastName: lastName,
-          email: email,
-          password: password,
-          isPro: isPro,
-          company_name: company_name,
-          description: description,
-          specialities: specialities,
-          kbis: data.urls[0],
-          insurance: data.urls[1],
-          rib: data.urls[2],
-  
-        }),
-      }).then(response => response.json())
-        .then(data => {
-          // console.log('data : ', data);
-          // console.log('reducer');
-          console.log('1 : ',{ email: email, token: data.token, isPro: isPro});
-          console.log('2 : ', email, data.token, isPro);
-          dispatch(AddLoginToStore({email: email, token: data.token, isPro: isPro}))
-          navigation.navigate('Acceuil')
-        })
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              firstName: firstName,
+              lastName: lastName,
+              email: email,
+              password: password,
+              isPro: isPro,
+              company_name: company_name,
+              description: description,
+              specialities: specialities,
+              kbis: data.urls[0],
+              insurance: data.urls[1],
+              rib: data.urls[2],
+
+            }),
+          }).then(response => response.json())
+            .then(data => {
+              // console.log('data : ', data);
+              // console.log('reducer');
+              console.log('1 : ', { email: email, token: data.token, isPro: isPro });
+              console.log('2 : ', email, data.token, isPro);
+              dispatch(AddLoginToStore({ email: email, token: data.token, isPro: isPro }))
+              navigation.navigate('Acceuil')
+            })
 
         })
     }
-    }
+  }
 
 
 
-return (
+  return (
 
-  <View style={styles.container}>
-    <View style={styles.blockHaut}>
+    <View style={styles.container}>
+      <View style={styles.blockHaut}>
 
-      <Text style={styles.title}>Importe tes Documents</Text>
+        <Text style={styles.title}>Importe tes Documents</Text>
 
+      </View>
+
+      <View style={styles.millieu}>
+        <TouchableOpacity onPress={() => importDoc(1)}>
+          <Text style={styles.input2}>{selectedFiles[0] !== undefined && selectedFiles[0].name || 'Importer'}</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => importDoc(2)}>
+          <Text style={styles.input2}>{selectedFiles[1] !== undefined && selectedFiles[1].name || 'Importer'}</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => importDoc(3)}>
+          <Text style={styles.input2}>{selectedFiles[2] !== undefined && selectedFiles[2].name || 'Importer'}</Text>
+        </TouchableOpacity>
+
+
+        <TouchableOpacity onPress={() => sendDoc()}>
+          <Text>Valider</Text>
+        </TouchableOpacity>
+
+        <Text style={styles.error}>{error}</Text>
+      </View>
+
+      <View style={styles.blockBas}>
+
+      </View>
+
+
+
+      <View style={styles.etape}>
+
+        <Text style={styles.textButton1}>Etape 2/3</Text>
+      </View>
+      <View style={styles.blockFin}>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.textButton2}>Précedent</Text>
+          <FontAwesome name='arrow-left' size={50} color='#786396' />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={test}>
+          <Text style={styles.textButton3}>Suivant</Text>
+          <FontAwesome name='arrow-right' size={50} color='#786396' />
+        </TouchableOpacity>
+      </View>
     </View>
 
-    <View style={styles.millieu}>
-      <TouchableOpacity onPress={() => importDoc(1)}>
-        <Text style={styles.input2}>{selectedFiles[0] !== undefined && selectedFiles[0].name || 'Importer'}</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity onPress={() => importDoc(2)}>
-        <Text style={styles.input2}>{selectedFiles[1] !== undefined && selectedFiles[1].name || 'Importer'}</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity onPress={() => importDoc(3)}>
-        <Text style={styles.input2}>{selectedFiles[2] !== undefined && selectedFiles[2].name || 'Importer'}</Text>
-      </TouchableOpacity>
-
-
-      <TouchableOpacity onPress={() => sendDoc()}>
-        <Text>Valider</Text>
-      </TouchableOpacity>
-
-      <Text style={styles.error}>{error}</Text>
-    </View>
-
-    <View style={styles.blockBas}>
-
-    </View>
-
-
-
-    <View style={styles.etape}>
-
-      <Text style={styles.textButton1}>Etape 2/3</Text>
-    </View>
-    <View style={styles.blockFin}>
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.textButton2}>Précedent</Text>
-        <FontAwesome name='arrow-left' size={50} color='#b14a73' />
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={test}>
-        <Text style={styles.textButton3}>Suivant</Text>
-        <FontAwesome name='arrow-right' size={50} color='#b14a73' />
-      </TouchableOpacity>
-    </View>
-  </View>
-
-);
+  );
 }
 const styles = StyleSheet.create({
   container: {
@@ -188,13 +188,13 @@ const styles = StyleSheet.create({
   },
 
 
-      title:{
-        fontSize:39,
-        fontWeight:'bold',
-        // fontFamily: "Futura",
-        marginBottom: 20,
-        textAlign: 'center'
-      },
+  title: {
+    fontSize: 39,
+    fontWeight: 'bold',
+    // fontFamily: "Futura",
+    marginBottom: 20,
+    textAlign: 'center'
+  },
   blockHaut: {
     height: '30%',
     width: '100%',
@@ -305,9 +305,9 @@ const styles = StyleSheet.create({
   },
   textButton1: {
     fontSize: 30,
-    color: '#008e9b',
+    // color: '#008e9b',
     borderBottomWidth: 1,
-    borderBottomColor: '#008e9b',
+    borderBottomColor: '#786396',
 
   },
 
@@ -317,17 +317,17 @@ const styles = StyleSheet.create({
   },
   textButton2: {
     fontSize: 17,
-    color: '#008e9b',
+    // color: '#008e9b',
     borderBottomWidth: 1,
-    borderBottomColor: '#008e9b',
+    borderBottomColor: '#786396',
     fontWeight: 'bold',
   },
 
   textButton3: {
     fontSize: 17,
-    color: '#008e9b',
+    // color: '#008e9b',
     borderBottomWidth: 1,
-    borderBottomColor: '#008e9b',
+    borderBottomColor: '#786396',
     fontWeight: 'bold',
 
   },

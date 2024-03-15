@@ -55,7 +55,7 @@ export default function InscriptionproScreen({ navigation }) {
     // console.log(allJob);
     const allJobBox = allJob.map(job => {
         return <View style={styles.checkboxAlign}>
-            <Checkbox style={styles.CheckBox} value={inscriptionInfo.specialities.includes(job)}
+            <Checkbox style={styles.CheckBox} color='#786396' value={inscriptionInfo.specialities.includes(job)}
                 onValueChange={() => dispatch(setSpecialities(job))} />
             <Text style={styles.paragraph}>{job}</Text>
         </View>
@@ -143,11 +143,11 @@ export default function InscriptionproScreen({ navigation }) {
             <View style={styles.blockFin}>
                 <TouchableOpacity style={styles.button}>
                     <Text style={styles.textButton2}>Précedent</Text>
-                    <FontAwesome name='arrow-left' size={50} color='#b14a73' />
+                    <FontAwesome name='arrow-left' size={50} color='#786396' />
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.button}>
                     <Text style={styles.textButton3} onPress={() => handleRegisterPro()}>Suivant</Text>
-                    <FontAwesome name='arrow-right' size={50} color='#b14a73' />
+                    <FontAwesome name='arrow-right' size={50} color='#786396' />
                 </TouchableOpacity>
             </View>
         </SafeAreaView>
@@ -180,9 +180,9 @@ const styles = StyleSheet.create({
     },
     textButton1: {
         fontSize: 30,
-        color: '#008e9b',
+        // color: '#008e9b',
         borderBottomWidth: 1,
-        borderBottomColor: '#008e9b',
+        borderBottomColor: '#786396',
         textAlign: 'center',
     },
     containerPoints: {
@@ -199,16 +199,16 @@ const styles = StyleSheet.create({
     },
     textButton2: {
         fontSize: 17,
-        color: '#008e9b',
+        // color: '#008e9b',
         borderBottomWidth: 1,
-        borderBottomColor: '#008e9b',
+        borderBottomColor: '#786396',
         fontWeight: 'bold',
     },
     textButton3: {
         fontSize: 17,
-        color: '#008e9b',
+        // color: '#008e9b',
         borderBottomWidth: 1,
-        borderBottomColor: '#008e9b',
+        borderBottomColor: '#786396',
         fontWeight: 'bold',
     },
     input1: {

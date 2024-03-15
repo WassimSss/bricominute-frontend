@@ -40,11 +40,25 @@ export default function ServiceStepFour({ navigation }) {
 			idJob: consumerService.jobs,
 			idJobTask: consumerService.jobTasks,
 			Date: consumerService.date,
+			street_number: consumerService.streetNumber,
+			street: consumerService.address,
+			zip_code: consumerService.zipCode,
+			city: consumerService.city,
 			status: consumerService.status,
 			price: consumerService.price,
 			IdAddress: '202020'
 		};
 
+		console.log(user);
+		// fetch(`http://10.20.2.115:3000/address`, {
+		// 	method: 'POST',
+		// 	headers: { 'Content-Type': 'application/json' },
+		// 	body: JSON.stringify(reformatedData)
+		// })
+		// 	.then(response => response.json())
+		// 	.then(dataAddress => {
+		// 		console.log(dataAddress);
+		// 	})
 		fetch(`http://10.20.2.115:3000/orders`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
@@ -60,7 +74,7 @@ export default function ServiceStepFour({ navigation }) {
 	return (
 		<View style={styles.container}>
 			<Text style={styles.title}>Récapitulatif</Text>
-			<Text>Etape {consumerService.step}/4</Text>
+			<Text>Etape {consumerService.step}/5</Text>
 
 			<FlatList
 				data={allServiceWanted}
@@ -126,11 +140,13 @@ const styles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: '#ffffff',
 		alignItems: 'center',
-		justifyContent: 'center'
+		justifyContent: 'space-around',
+		height: height
 	},
 	title: {
 		fontSize: 30,
-		fontWeight: 'bold'
+		fontWeight: 'bold',
+		marginTop: 50
 	},
 	duo: {
 		display: 'flex',
@@ -168,7 +184,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		width: width - 60,
 		justifyContent: 'space-between',
-		marginTop: 30
+		marginBottom: 30
 	},
 	cantGoStyle: {
 		color: '#979797'
@@ -184,7 +200,6 @@ const styles = StyleSheet.create({
 		marginTop: 100
 	},
 	li: {
-		backgroundColor: 'red',
 		flexDirection: 'row',
 		justifyContent: 'space-betweenn',
 		margin: 10,

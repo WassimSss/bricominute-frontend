@@ -78,8 +78,8 @@ export default function ConnectionScreen({ navigation }) {
 					start={{ x: 0, y: 0 }}
 					end={{ x: 1, y: 1 }}
 				>
-					<TouchableOpacity style={styles.button1} onPress={() => handleConnection()}>
-						<Text style={styles.button}>CONNECTION</Text>
+					<TouchableOpacity onPress={() => handleConnection()}>
+						<Text style={styles.textButtonRadiant}>CONNECTION</Text>
 					</TouchableOpacity>
 				</LinearGradient>
 
@@ -108,7 +108,19 @@ const styles = StyleSheet.create({
 		height: '30%',
 		justifyContent: 'center'
 	},
-
+	button: {
+		paddingHorizontal: 15,
+		paddingVertical: 8,
+		// backgroundColor: "#b14a73",
+		borderRadius: 15,
+		alignItems: 'flex-end',
+		justifyContent: 'center'
+	},
+	textButtonRadiant: {
+		color: 'white',
+		fontSize: 22,
+		fontWeight: 'bold',
+	},
 	container: {
 		flex: 1,
 		marginTop: '20%'

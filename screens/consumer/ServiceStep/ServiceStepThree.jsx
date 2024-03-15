@@ -8,7 +8,7 @@ import { LocaleConfig } from 'react-native-calendars';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 
 import React, { useEffect } from 'react';
-import {checkTokenAndRedirect} from '../../../utils/checkTokenAndRedirect';
+import { checkTokenAndRedirect } from '../../../utils/checkTokenAndRedirect';
 
 export default function ServiceStepThree({ navigation }) {
 	const user = useSelector((state) => state.user.value);
@@ -20,9 +20,9 @@ export default function ServiceStepThree({ navigation }) {
 	const consumerService = useSelector((state) => state.consumerServices.value);
 	const dispatch = useDispatch();
 
-	const [ selected, setSelected ] = useState('');
-	const options = [ 'Le plus tôt', 'Programmer' ];
-	const [ optionSelected, setOptionSelected ] = useState('');
+	const [selected, setSelected] = useState('');
+	const options = ['Le plus tôt', 'Programmer'];
+	const [optionSelected, setOptionSelected] = useState('');
 	// const [date, setDate] = useState(null);
 
 	function formatDateToString(date) {
@@ -81,8 +81,8 @@ export default function ServiceStepThree({ navigation }) {
 			'Nov.',
 			'Déc.'
 		],
-		dayNames: [ 'Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi' ],
-		dayNamesShort: [ 'Dim.', 'Lun.', 'Mar.', 'Mer.', 'Jeu.', 'Ven.', 'Sam.' ],
+		dayNames: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+		dayNamesShort: ['Dim.', 'Lun.', 'Mar.', 'Mer.', 'Jeu.', 'Ven.', 'Sam.'],
 		today: "Aujourd'hui"
 	};
 	LocaleConfig.defaultLocale = 'fr';
@@ -109,8 +109,10 @@ export default function ServiceStepThree({ navigation }) {
 
 	return (
 		<View style={styles.container}>
-			<Text style={styles.title}>Quand ?</Text>
-			<Text>Etape {consumerService.step}/4</Text>
+			<View>
+				<Text style={styles.title}>Quand ?</Text>
+				<Text>Etape {consumerService.step}/5</Text>
+			</View>
 
 			<View>
 				<RadioButton options={options} style={styles.radioBtns} handleRadio={handleRadio} />
@@ -150,7 +152,7 @@ export default function ServiceStepThree({ navigation }) {
 
 			<View style={styles.allBtn}>
 				<TouchableOpacity style={styles.arrowBtnContainer} onPress={() => handlePreviousStep(true)}>
-					<Text style={[ styles.activeColor, consumerService.step === 1 && styles.cantGoStyle ]}>
+					<Text style={[styles.activeColor, consumerService.step === 1 && styles.cantGoStyle]}>
 						Précédent
 					</Text>
 					<FontAwesome
@@ -162,10 +164,10 @@ export default function ServiceStepThree({ navigation }) {
 				</TouchableOpacity>
 
 				<TouchableOpacity
-					style={[ styles.arrowBtnContainer, styles.cantGoStyle ]}
+					style={[styles.arrowBtnContainer, styles.cantGoStyle]}
 					onPress={() => handleNextStep(optionSelected !== '')}
 				>
-					<Text style={[ styles.cantGoStyle, consumerService.jobTasks.length > 0 && styles.activeColor ]}>
+					<Text style={[styles.cantGoStyle, consumerService.jobTasks.length > 0 && styles.activeColor]}>
 						Suivant
 					</Text>
 					<FontAwesome
@@ -187,7 +189,8 @@ const styles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: '#ffffff',
 		alignItems: 'center',
-		justifyContent: 'center'
+		justifyContent: 'space-around',
+		height: height
 	},
 	title: {
 		fontSize: 30,

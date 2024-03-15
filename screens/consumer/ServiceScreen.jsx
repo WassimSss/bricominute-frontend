@@ -2,6 +2,7 @@ import ServiceStepOne from './ServiceStep/ServiceStepOne';
 import { useDispatch, useSelector } from 'react-redux';
 import ServiceStepTwo from './ServiceStep/ServiceStepTwo';
 import ServiceStepThree from './ServiceStep/ServiceStepThree';
+import ServiceStepThreeBis from './ServiceStep/ServiceStepThreeBis';
 import ServiceStepFour from './ServiceStep/ServiceStepFour';
 import { Text, View, StyleSheet } from 'react-native';
 import MapView from 'react-native-maps';
@@ -251,6 +252,8 @@ export default function ServiceScreen({ navigation }) {
 		} else if (consumerService.step === 3) {
 			return <ServiceStepThree navigation={navigation} />;
 		} else if (consumerService.step === 4) {
+			return <ServiceStepThreeBis navigation={navigation} />;
+		} else if (consumerService.step === 5) {
 			return <ServiceStepFour navigation={navigation} />;
 		}
 	}

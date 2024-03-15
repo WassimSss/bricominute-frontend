@@ -1,32 +1,43 @@
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, ScrollView } from 'react-native';
 import { useSelector } from 'react-redux';
 
 import React, { useEffect } from 'react';
-import {checkTokenAndRedirect} from '../../utils/checkTokenAndRedirect';
+import { checkTokenAndRedirect } from '../../utils/checkTokenAndRedirect';
+
 export default function HomeScreenConsumer({ navigation }) {
 	const user = useSelector((state) => state.user.value);
 
 	useEffect(() => {
 		checkTokenAndRedirect(navigation, user);
 	}, []);
+
+
 	return (
 		<View style={styles.container}>
-			<View style={styles.newsContainer}>
+			<ScrollView style={styles.newsContainer}>
 				<View style={styles.newsCard}>
-					<Text style={styles.title}>M.A.J.1.6.2</Text>
-					<Text style={styles.desc}>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</Text>
+					<Text style={styles.title}>Offre spéciale !</Text>
+					<Text style={styles.desc}>Dans 2 jours, une offre spéciale sera disponible ! Profitez d'une réduction de 20% sur votre prochaine commande. Restez à l'écoute pour plus de détails.</Text>
+				</View>
+				<View style={styles.newsCard}>
+					<Text style={styles.title}>M.A.J.0.0.4</Text>
+					<Text style={styles.desc}>Les utilisateurs peuvent désormais noter et laisser leurs avis sur les professionnels. Cette fonctionnalité permettra une meilleure transparence et une évaluation des services.</Text>
+				</View>
+				<View style={styles.newsCard}>
+					<Text style={styles.title}>M.A.J.0.0.3</Text>
+					<Text style={styles.desc}>Cette mise à jour corrige plusieurs bugs identifiés sur la partie client, garantissant ainsi une expérience utilisateur plus fluide et sans interruption.</Text>
 				</View>
 
 				<View style={styles.newsCard}>
-					<Text style={styles.title}>M.A.J.1.6.1</Text>
-					<Text style={styles.desc}>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</Text>
+					<Text style={styles.title}>M.A.J.0.0.2</Text>
+					<Text style={styles.desc}>Nous sommes heureux d'annoncer que des codes promo seront bientôt disponibles pour nos utilisateurs. Économisez sur vos prochaines commandes avec nos offres exclusives.</Text>
 				</View>
 
 				<View style={styles.newsCard}>
-					<Text style={styles.title}>M.A.J.1.5</Text>
-					<Text style={styles.desc}>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</Text>
+					<Text style={styles.title}>M.A.J.0.0.1</Text>
+					<Text style={styles.desc}>Nouveau dans cette version : la messagerie avec le client ! Vous pouvez maintenant communiquer plus facilement avec vos clients pour répondre à leurs questions et leurs besoins.</Text>
 				</View>
-			</View>
+			</ScrollView>
 		</View>
 	);
 }
@@ -55,7 +66,7 @@ const styles = StyleSheet.create({
 		elevation: 10 // Pour Android, simule l'effet d'ombre
 	},
 	title: {
-		color: '#008E9B'
+		color: '#786396'
 	},
 	desc: {}
 });

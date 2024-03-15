@@ -69,22 +69,29 @@ export default function Profil({ navigation }) {
             </View>
           </View>
           <View style={styles.containerText}>
-            <View>
+            {/* <View>
               <Text style={styles.Transaction}>Transaction</Text>
-            </View>
-            <View style={styles.PIP}>
+            </View> */}
+            {/* <View style={styles.PIP}>
               <Text style={styles.text}>Parametres </Text>
               <Text style={styles.text}>Informations personnelles </Text>
-            </View>
-            <View style={styles.ENM}>
+            </View> */}
+            {/* <View style={styles.ENM}>
               <Text style={styles.text}>Email </Text>
               <Text style={styles.text}>Notifications </Text>
               <Text style={styles.text}>Moyens de paiement </Text>
-            </View>
+            </View> */}
             <View style={styles.AIC}>
-              <Text style={styles.text}>Aide </Text>
-              <Text style={styles.text}>Informations légales </Text>
-              <Text style={styles.text}>Centre d'aide</Text>
+              {/* <Text style={styles.text}>Aide </Text> */}
+              <TouchableOpacity onPress={() => navigation.navigate('Transaction')}>
+                <Text style={styles.text}>Transaction</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => navigation.navigate('LegalInformation')}>
+                <Text style={styles.text}>Informations légales</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => navigation.navigate('HelpCenter')}>
+                <Text style={styles.text}>Centre d'aide</Text>
+              </TouchableOpacity>
             </View>
             <View style={styles.disconnect}>
               <TouchableOpacity activeOpacity={0.1} onPress={handleDisconnect}>
@@ -104,7 +111,7 @@ const { height, width } = Dimensions.get('screen');
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'space-between',
-    height: '100%',
+    height: width,
     marginTop: '9%',
     flexDirection: 'row-reverse',
     margin: 8,
@@ -116,7 +123,7 @@ const styles = StyleSheet.create({
   },
 
   Transaction: {
-    borderTopWidth: 1,
+    // borderTopWidth: 1,
     fontSize: 25,
     marginLeft: 20,
     borderRadius: 80,
@@ -191,7 +198,7 @@ const styles = StyleSheet.create({
   AIC: {
 
     justifyContent: 'space-between',
-    borderTopWidth: 1
+    // borderTopWidth: 1
 
   },
 
